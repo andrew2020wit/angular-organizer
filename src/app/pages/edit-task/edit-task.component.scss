@@ -1,0 +1,14 @@
+.new-task-container {
+  max-width: 800px;
+  margin: auto;
+  background-color: antiquewhite;
+  padding: 1rem;
+
+  ::ng-deep .mat-form-field {
+    width: 100%;
+  }
+}
+
+.add-task-button {
+  text-align: center;
+}
