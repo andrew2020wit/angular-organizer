@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ITask, TasksService } from '../../services/tasks.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-edit-task',
@@ -20,7 +21,7 @@ export class EditTaskComponent implements OnInit {
 
   noDateCheckbox = false;
 
-  constructor(private taskService: TasksService) {}
+  constructor(private taskService: TasksService, private router: Router) {}
 
   ngOnInit(): void {
     this.getCategories();
@@ -45,5 +46,7 @@ export class EditTaskComponent implements OnInit {
       this.task.timestamp = this.selectedDate.getTime();
     }
     this.taskService.editTask(this.task);
+    this.router.navigate(['']);
+
   }
 }
