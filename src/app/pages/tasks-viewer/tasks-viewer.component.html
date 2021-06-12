@@ -1,5 +1,7 @@
 <div class="tasks-viewer">
   <ol>
-    <li *ngFor=" let task of tasks">{{task.title}}</li>
+    <li *ngFor="let task of tasks">
+      {{ task.title }} <span *ngIf="task.data"> : {{ task.data | date: 'dd-MM-yyyy: HH:mm' }}</span>
+    </li>
   </ol>
 </div>

@@ -8,6 +8,7 @@ export interface ITask {
   title: string;
   description?: string;
   timestamp: number;
+  data?: Date;
   category?: string;
 }
 
@@ -72,8 +73,16 @@ export class TasksService {
       return [];
     }
     for (let key in this.tasks) {
+      if (this.tasks[key].timestamp) {
+        this.tasks[key].data = new Date(this.tasks[key].timestamp);
+      } else {
+        this.tasks[key].data = undefined;
+      }
       res.push(this.tasks[key]);
     }
+    res.sort((a, b) => {
+      return a.timestamp - b.timestamp;
+    });
     return res;
   }
 
