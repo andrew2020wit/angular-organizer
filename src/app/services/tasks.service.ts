@@ -5,9 +5,9 @@ import {AppErrorsService} from "./app-errors.service";
 const localStorageTaskKey = 'localStorageTaskKey';
 
 const EmbeddedTaskCategories = {
-  Postponed:  'Postponed',
   Main:  'Main',
   HighPriority:  'HighPriority',
+  Postponed:  'Postponed',
   Other:  'Other'
 } as const;
 
@@ -16,6 +16,7 @@ export interface ITask {
   title: string;
   description?: string;
   timestamp: number;
+  periodTimestamp?: number;
   data?: Date;
   category?: string;
 }

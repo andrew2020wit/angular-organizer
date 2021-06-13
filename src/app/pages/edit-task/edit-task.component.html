@@ -30,17 +30,11 @@
           matInput
           [matDatepicker]="picker"
           [(ngModel)]="selectedDate"
-          [disabled]="noDateCheckbox"
           name="edit-task-date"
         />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-    </div>
-    <div class="no-date-checkbox">
-      <mat-checkbox [(ngModel)]="noDateCheckbox" name="edit-task-checkbox">
-        Without date</mat-checkbox
-      >
     </div>
   </div>
   <div class="description-field">

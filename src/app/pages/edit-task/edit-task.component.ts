@@ -21,8 +21,6 @@ export class EditTaskComponent implements OnInit {
 
   categories: string[] = [];
 
-  noDateCheckbox = false;
-
   constructor(
     private taskService: TasksService,
     private router: Router,
@@ -58,11 +56,7 @@ export class EditTaskComponent implements OnInit {
   }
 
   editTask() {
-    if (this.noDateCheckbox) {
-      this.task.timestamp = 0;
-    } else {
-      this.task.timestamp = this.selectedDate.getTime();
-    }
+    this.task.timestamp = this.selectedDate.getTime();
     this.taskService.editTask(this.task);
     this.router.navigate(['']);
   }
