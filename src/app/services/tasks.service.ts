@@ -3,6 +3,13 @@ import { BehaviorSubject } from 'rxjs';
 
 const localStorageTaskKey = 'localStorageTaskKey';
 
+const EmbeddedTaskCategories = {
+  Postponed:  'Postponed',
+  Main:  'Main',
+  HighPriority:  'HighPriority',
+  Other:  'Other'
+} as const;
+
 export interface ITask {
   id?: number;
   title: string;
@@ -22,9 +29,11 @@ interface ITasksState {
 })
 export class TasksService {
   public tasksIsChanged$ = new BehaviorSubject<boolean>(false);
-  private taskCategories: string[] = ['main', 'postponed'];
-  public tasks: Record<number, ITask> = {};
-  private currentIdCount = 1;
+
+  private tasksState: ITasksState = {
+    currentIdCount: 1,
+    tasks: [],
+  };
 
   constructor() {
     this.loadTasksFromLocalStorage();
@@ -43,55 +52,56 @@ export class TasksService {
       if (!tasksState.currentIdCount || !tasksState.tasks.length) {
         return;
       }
-      this.currentIdCount = tasksState.currentIdCount;
-      this.tasks = {};
-      tasksState.tasks.forEach((task) => {
-        if (!task.id) {
-          return;
-        }
-        this.tasks[task.id] = task;
-      });
+      this.tasksState.currentIdCount = tasksState.currentIdCount;
+      this.tasksState.tasks = tasksState.tasks;
       this.tasksIsChanged$.next(true);
     }
   }
 
   private saveTaskToLocalStorage() {
-    const tasksState: ITasksState = {
-      currentIdCount: this.currentIdCount,
-      tasks: this.getTaskArray(),
-    };
-    localStorage.setItem(localStorageTaskKey, JSON.stringify(tasksState));
+    localStorage.setItem(localStorageTaskKey, JSON.stringify(this.tasksState));
   }
 
   public getTaskCategories() {
-    return this.taskCategories;
+    const res = [];
+    for (let key in EmbeddedTaskCategories) {
+      // @ts-ignore
+      res.push(EmbeddedTaskCategories[key]);
+    }
+    return res;
   }
 
-  public getTaskArray(): ITask[] {
-    const res: ITask[] = [];
-    if (!this.tasks) {
+  sortArrayOfTasks(tasks: ITask[]): ITask[] {
+    if (!tasks) {
       return [];
     }
-    for (let key in this.tasks) {
-      if (this.tasks[key].timestamp) {
-        this.tasks[key].data = new Date(this.tasks[key].timestamp);
-      } else {
-        this.tasks[key].data = undefined;
-      }
-      res.push(this.tasks[key]);
-    }
-    res.sort((a, b) => {
+    tasks.sort((a, b) => {
       return a.timestamp - b.timestamp;
     });
-    return res;
+    return tasks;
+  }
+
+  public getTaskArray() {
+    return this.tasksState.tasks;
+  }
+
+  private insertTask(task: ITask) {
+    const index = this.tasksState.tasks.findIndex((item) => {
+     return  item.id === task.id;
+    });
+    if (index === -1) {
+      this.tasksState.tasks.push(task)
+    } else {
+      this.tasksState.tasks.splice(index, 1, task)
+    }
   }
 
   public editTask(task: ITask) {
     if (!task.id) {
-      task.id = this.currentIdCount;
-      this.currentIdCount++;
+      task.id = this.tasksState.currentIdCount;
+      this.tasksState.currentIdCount++;
     }
-    this.tasks[task.id] = task;
+    this.insertTask(task);
     this.tasksIsChanged$.next(true);
   }
 }
