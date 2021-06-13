@@ -1,7 +1,10 @@
 <div class="tasks-viewer">
   <ol>
     <li *ngFor="let task of tasks">
-      {{ task.title }} <span *ngIf="task.data"> : {{ task.data | date: 'dd-MM-yyyy: HH:mm' }}</span>
+      <a [routerLink]="'/edit-task/' + task.id">
+        {{ task.title }}
+        <span *ngIf="task.data"> : {{ task.data | date: 'dd-MM-yyyy: HH:mm' }}</span>
+      </a>
     </li>
   </ol>
 </div>

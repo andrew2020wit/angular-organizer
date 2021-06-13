@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ITask, TasksService } from '../../services/tasks.service';
-import {Router} from "@angular/router";
+import { ActivatedRoute, Router } from '@angular/router';
+import {AppErrorsService} from "../../services/app-errors.service";
 
 @Component({
   selector: 'app-edit-task',
@@ -9,6 +10,7 @@ import {Router} from "@angular/router";
 })
 export class EditTaskComponent implements OnInit {
   task: ITask = {
+    id: 0,
     title: '',
     description: '',
     category: '',
@@ -21,7 +23,23 @@ export class EditTaskComponent implements OnInit {
 
   noDateCheckbox = false;
 
-  constructor(private taskService: TasksService, private router: Router) {}
+  constructor(
+    private taskService: TasksService,
+    private router: Router,
+    private activateRoute: ActivatedRoute,
+    private appErrorService: AppErrorsService
+  ) {
+    const snapshotId = activateRoute.snapshot.params['id'];
+    if (snapshotId) {
+      this.task.id = +snapshotId;
+      const task = this.taskService.getTaskByID(+snapshotId);
+      if (!task){
+        this.appErrorService.newError('EditTaskComponent: cannot get task');
+      } else {
+        this.task = task;
+      }
+    }
+  }
 
   ngOnInit(): void {
     this.getCategories();
@@ -39,7 +57,7 @@ export class EditTaskComponent implements OnInit {
     return !!this.task.title;
   }
 
-  addTask() {
+  editTask() {
     if (this.noDateCheckbox) {
       this.task.timestamp = 0;
     } else {
@@ -47,6 +65,5 @@ export class EditTaskComponent implements OnInit {
     }
     this.taskService.editTask(this.task);
     this.router.navigate(['']);
-
   }
 }

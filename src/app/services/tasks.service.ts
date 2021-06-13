@@ -96,6 +96,13 @@ export class TasksService {
     }
   }
 
+  getTaskByID(id: number){
+    const task = this.tasksState.tasks.find((item => {
+      return item.id === id;
+    }))
+    return task
+  }
+
   public editTask(task: ITask) {
     if (!task.id) {
       task.id = this.tasksState.currentIdCount;

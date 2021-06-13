@@ -6,14 +6,17 @@
     </mat-form-field>
   </div>
   <div class="add-task-button">
-    <button mat-button color="primary" (click)="addTask()" [disabled]="!itIsReady()"   > Add task </button>
+    <button mat-button color="primary" (click)="editTask()" [disabled]="!itIsReady()">
+      <span *ngIf="task.id == 0">Add task</span>
+      <span *ngIf="task.id != 0">Edit task</span>
+    </button>
   </div>
   <div class="category">
     <mat-form-field>
       <mat-label>Category</mat-label>
       <mat-select [(ngModel)]="task.category" name="edit-task-category">
-        <mat-option *ngFor="let category of categories" [value]="category" >
-          {{category}}
+        <mat-option *ngFor="let category of categories" [value]="category">
+          {{ category }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -22,19 +25,27 @@
     <div class="date-inner-field">
       <mat-form-field appearance="fill">
         <mat-label>Task Date</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" [disabled]="noDateCheckbox" name="edit-task-date">
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [(ngModel)]="selectedDate"
+          [disabled]="noDateCheckbox"
+          name="edit-task-date"
+        />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </div>
     <div class="no-date-checkbox">
-      <mat-checkbox [(ngModel)]="noDateCheckbox" name="edit-task-checkbox"> Without date</mat-checkbox>
+      <mat-checkbox [(ngModel)]="noDateCheckbox" name="edit-task-checkbox">
+        Without date</mat-checkbox
+      >
     </div>
   </div>
   <div class="description-field">
     <mat-form-field>
       <mat-label>Description</mat-label>
-      <textarea matInput [(ngModel)]="task.description" name="edit-task-description" ></textarea>
+      <textarea matInput [(ngModel)]="task.description" name="edit-task-description"></textarea>
     </mat-form-field>
   </div>
 </div>

@@ -5,13 +5,15 @@
         <div class="title head-menu-item">Angular Organizer</div>
         <div class="head-menu">
           <div class="head-menu-item">
-            <a routerLink="/"  routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"> Tasks </a>
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              Tasks
+            </a>
           </div>
           <div class="head-menu-item">
-            <a routerLink="/edit-task"  routerLinkActive="active">Add new task</a>
+            <a routerLink="/edit-task" routerLinkActive="active">Add new task</a>
           </div>
           <div class="head-menu-item">
-            <a routerLink="/settings"  routerLinkActive="active"> Settings</a>
+            <a routerLink="/settings" routerLinkActive="active"> Settings</a>
           </div>
         </div>
       </div>
@@ -19,6 +21,14 @@
   </div>
   <div class="middle">
     <div class="main">
+      <div class="errors" *ngIf="errors.length">
+        <ol>
+          <li *ngFor="let error of errors">{{ error }}</li>
+        </ol>
+        <div class="errors-clear-button">
+          <button mat-button color="warn" (click)="clearErrors()">ClearErrors</button>
+        </div>
+      </div>
       <router-outlet></router-outlet>
     </div>
   </div>

@@ -44,3 +44,11 @@
     height: auto;
   }
 }
+
+.errors {
+  width: 100%;
+  color: red;
+  .errors-clear-button {
+    text-align: center;
+  }
+}
