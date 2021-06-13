@@ -1,4 +1,15 @@
 .tasks-viewer {
-  display: grid;
-  grid-template-rows: auto auto auto;
+  display: flex;
+}
+.category-column {
+  display: flex;
+  flex-direction: column;
+  div {
+    margin: 1rem;
+  }
+}
+
+.task-div {
+
+  background-color: antiquewhite;
 }

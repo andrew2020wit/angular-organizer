@@ -1,10 +1,15 @@
-<div class="tasks-viewer">
-  <ol>
-    <li *ngFor="let task of tasks">
-      <a [routerLink]="'/edit-task/' + task.id">
-        {{ task.title }}
-        <span *ngIf="task.data"> : {{ task.data | date: 'dd-MM-yyyy: HH:mm' }}</span>
-      </a>
-    </li>
-  </ol>
+<div class="tasks-viewer" *ngIf="categories.length">
+  <div class="category-column" *ngFor="let category of categories">
+    <div class="column-header">
+      <h3>{{ category }}</h3>
+    </div>
+    <ng-container *ngIf="preparedTasks[category]?.length">
+      <div class="task-div" *ngFor="let task of preparedTasks[category]">
+        <a [routerLink]="'/edit-task/' + task.id">
+          {{ task.title }}
+          <span *ngIf="task.data"> : {{ task.data | date: 'dd-MM-yyyy: HH:mm' }}</span>
+        </a>
+      </div>
+    </ng-container>
+  </div>
 </div>

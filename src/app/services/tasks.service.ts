@@ -4,7 +4,7 @@ import {AppErrorsService} from "./app-errors.service";
 
 const localStorageTaskKey = 'localStorageTaskKey';
 
-const EmbeddedTaskCategories = {
+export const EmbeddedTaskCategories = {
   Main:  'Main',
   HighPriority:  'HighPriority',
   Postponed:  'Postponed',
@@ -18,7 +18,7 @@ export interface ITask {
   timestamp: number;
   periodTimestamp?: number;
   data?: Date;
-  category?: string;
+  category: string;
 }
 
 interface ITasksState {
@@ -73,15 +73,7 @@ export class TasksService {
     return res;
   }
 
-  sortArrayOfTasks(tasks: ITask[]): ITask[] {
-    if (!tasks) {
-      return [];
-    }
-    tasks.sort((a, b) => {
-      return a.timestamp - b.timestamp;
-    });
-    return tasks;
-  }
+
 
   public getTaskArray() {
     return this.tasksState.tasks;
