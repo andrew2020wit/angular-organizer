@@ -5,11 +5,12 @@
       <textarea matInput [(ngModel)]="task.title" name="edit-task-title"></textarea>
     </mat-form-field>
   </div>
-  <div class="add-task-button">
+  <div class="task-buttons">
     <button mat-button color="primary" (click)="editTask()" [disabled]="!itIsReady()">
       <span *ngIf="task.id == 0">Add task</span>
       <span *ngIf="task.id != 0">Edit task</span>
     </button>
+    <button mat-button color="warn" (click)="deleteTask()" *ngIf="task.id">Delete task</button>
   </div>
   <div class="category">
     <mat-form-field>

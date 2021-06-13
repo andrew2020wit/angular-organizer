@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ITask, TasksService } from '../../services/tasks.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {AppErrorsService} from "../../services/app-errors.service";
+import { AppErrorsService } from '../../services/app-errors.service';
 
 @Component({
   selector: 'app-edit-task',
@@ -27,13 +27,13 @@ export class EditTaskComponent implements OnInit {
     private taskService: TasksService,
     private router: Router,
     private activateRoute: ActivatedRoute,
-    private appErrorService: AppErrorsService
+    private appErrorService: AppErrorsService,
   ) {
     const snapshotId = activateRoute.snapshot.params['id'];
     if (snapshotId) {
       this.task.id = +snapshotId;
       const task = this.taskService.getTaskByID(+snapshotId);
-      if (!task){
+      if (!task) {
         this.appErrorService.newError('EditTaskComponent: cannot get task');
       } else {
         this.task = task;
@@ -64,6 +64,10 @@ export class EditTaskComponent implements OnInit {
       this.task.timestamp = this.selectedDate.getTime();
     }
     this.taskService.editTask(this.task);
+    this.router.navigate(['']);
+  }
+  deleteTask() {
+    this.taskService.deleteTask(this.task);
     this.router.navigate(['']);
   }
 }

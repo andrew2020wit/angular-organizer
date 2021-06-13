@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import {AppErrorsService} from "./app-errors.service";
 
 const localStorageTaskKey = 'localStorageTaskKey';
 
@@ -35,7 +36,7 @@ export class TasksService {
     tasks: [],
   };
 
-  constructor() {
+  constructor(private appErrorsService: AppErrorsService) {
     this.loadTasksFromLocalStorage();
     this.tasksIsChanged$.subscribe((tasksIsChanged) => {
       if (!tasksIsChanged) {
@@ -93,6 +94,18 @@ export class TasksService {
       this.tasksState.tasks.push(task)
     } else {
       this.tasksState.tasks.splice(index, 1, task)
+    }
+  }
+
+  deleteTask(task: ITask) {
+    const index = this.tasksState.tasks.findIndex((item) => {
+      return  item.id === task.id;
+    });
+    if (index === -1) {
+      this.appErrorsService.newError('TasksService: task was not fined');
+      console.error('TasksService: task was not fined', task);
+    } else {
+      this.tasksState.tasks.splice(index, 1)
     }
   }
 
