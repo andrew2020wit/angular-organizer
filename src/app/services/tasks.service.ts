@@ -43,6 +43,7 @@ export class TasksService {
       if (!tasksIsChanged) {
         return;
       }
+      console.log('tasksIsChanged', this.tasksState)
       this.saveTaskToLocalStorage();
     });
   }
@@ -70,10 +71,9 @@ export class TasksService {
       // @ts-ignore
       res.push(EmbeddedTaskCategories[key]);
     }
+    console.log('getTaskCategories', res)
     return res;
   }
-
-
 
   public getTaskArray() {
     return this.tasksState.tasks;
@@ -85,8 +85,10 @@ export class TasksService {
     });
     if (index === -1) {
       this.tasksState.tasks.push(task)
+      this.tasksIsChanged$.next(true);
     } else {
-      this.tasksState.tasks.splice(index, 1, task)
+      this.tasksState.tasks.splice(index, 1, task);
+      this.tasksIsChanged$.next(true);
     }
   }
 
@@ -98,14 +100,16 @@ export class TasksService {
       this.appErrorsService.newError('TasksService: task was not fined');
       console.error('TasksService: task was not fined', task);
     } else {
-      this.tasksState.tasks.splice(index, 1)
+      this.tasksState.tasks.splice(index, 1);
+      this.tasksIsChanged$.next(true);
     }
   }
 
   getTaskByID(id: number){
     const task = this.tasksState.tasks.find((item => {
       return item.id === id;
-    }))
+    }));
+    console.log('getTaskByID', task)
     return task
   }
 
@@ -115,6 +119,5 @@ export class TasksService {
       this.tasksState.currentIdCount++;
     }
     this.insertTask(task);
-    this.tasksIsChanged$.next(true);
   }
 }

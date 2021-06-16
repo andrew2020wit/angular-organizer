@@ -13,7 +13,7 @@ export class EditTaskComponent implements OnInit {
     id: 0,
     title: '',
     description: '',
-    category: '',
+    category: 'main',
     timestamp: 0,
   };
 
@@ -27,28 +27,25 @@ export class EditTaskComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private appErrorService: AppErrorsService,
   ) {
-    const snapshotId = activateRoute.snapshot.params['id'];
+    this.categories = this.taskService.getTaskCategories();
+    this.getCurrentTask();
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  getCurrentTask(){
+    const snapshotId = this.activateRoute.snapshot.params['id'];
     if (snapshotId) {
       this.task.id = +snapshotId;
       const task = this.taskService.getTaskByID(+snapshotId);
       if (!task) {
         this.appErrorService.newError('EditTaskComponent: cannot get task');
       } else {
-        this.task = task;
+        this.task = Object.assign({}, task);
       }
     }
-  }
-
-  ngOnInit(): void {
-    this.getCategories();
-  }
-
-  getCategories() {
-    this.categories = this.taskService.getTaskCategories();
-    if (!this.categories.length) {
-      return;
-    }
-    this.task.category = this.categories[0];
   }
 
   itIsReady() {
