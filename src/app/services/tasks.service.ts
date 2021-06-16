@@ -1,29 +1,29 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import {AppErrorsService} from "./app-errors.service";
+import { AppErrorsService } from './app-errors.service';
 
 const localStorageTaskKey = 'localStorageTaskKey';
 
 export const EmbeddedTaskCategories = {
-  Main:  'Main',
-  HighPriority:  'HighPriority',
-  Postponed:  'Postponed',
-  Other:  'Other'
+  Main: 'Main',
+  HighPriority: 'HighPriority',
+  Postponed: 'Postponed',
+  Other: 'Other',
 } as const;
 
-export interface ITask {
+export class Task {
   id?: number;
-  title: string;
+  title = '';
   description?: string;
-  timestamp: number;
+  timestamp = 0;
   periodTimestamp?: number;
-  data?: Date;
-  category: string;
+  date?: Date;
+  category = 'main';
 }
 
 interface ITasksState {
   currentIdCount: number;
-  tasks: ITask[];
+  tasks: Task[];
 }
 
 @Injectable({
@@ -43,7 +43,7 @@ export class TasksService {
       if (!tasksIsChanged) {
         return;
       }
-      console.log('tasksIsChanged', this.tasksState)
+      console.log('tasksIsChanged', this.tasksState);
       this.saveTaskToLocalStorage();
     });
   }
@@ -71,7 +71,7 @@ export class TasksService {
       // @ts-ignore
       res.push(EmbeddedTaskCategories[key]);
     }
-    console.log('getTaskCategories', res)
+    console.log('getTaskCategories', res);
     return res;
   }
 
@@ -79,12 +79,12 @@ export class TasksService {
     return this.tasksState.tasks;
   }
 
-  private insertTask(task: ITask) {
+  private insertTask(task: Task) {
     const index = this.tasksState.tasks.findIndex((item) => {
-     return  item.id === task.id;
+      return item.id === task.id;
     });
     if (index === -1) {
-      this.tasksState.tasks.push(task)
+      this.tasksState.tasks.push(task);
       this.tasksIsChanged$.next(true);
     } else {
       this.tasksState.tasks.splice(index, 1, task);
@@ -92,9 +92,9 @@ export class TasksService {
     }
   }
 
-  deleteTask(task: ITask) {
+  deleteTask(task: Task) {
     const index = this.tasksState.tasks.findIndex((item) => {
-      return  item.id === task.id;
+      return item.id === task.id;
     });
     if (index === -1) {
       this.appErrorsService.newError('TasksService: task was not fined');
@@ -105,15 +105,15 @@ export class TasksService {
     }
   }
 
-  getTaskByID(id: number){
-    const task = this.tasksState.tasks.find((item => {
+  getTaskByID(id: number) {
+    const task = this.tasksState.tasks.find((item) => {
       return item.id === id;
-    }));
-    console.log('getTaskByID', task)
-    return task
+    });
+    console.log('getTaskByID', task);
+    return task;
   }
 
-  public editTask(task: ITask) {
+  public editTask(task: Task) {
     if (!task.id) {
       task.id = this.tasksState.currentIdCount;
       this.tasksState.currentIdCount++;

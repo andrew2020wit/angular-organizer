@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ITask, TasksService } from '../../services/tasks.service';
+import { Task, TasksService } from '../../services/tasks.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppErrorsService } from '../../services/app-errors.service';
 
@@ -9,7 +9,7 @@ import { AppErrorsService } from '../../services/app-errors.service';
   styleUrls: ['./edit-task.component.scss'],
 })
 export class EditTaskComponent implements OnInit {
-  task: ITask = {
+  task: Task = {
     id: 0,
     title: '',
     description: '',
@@ -31,11 +31,9 @@ export class EditTaskComponent implements OnInit {
     this.getCurrentTask();
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
-  }
-
-  getCurrentTask(){
+  getCurrentTask() {
     const snapshotId = this.activateRoute.snapshot.params['id'];
     if (snapshotId) {
       this.task.id = +snapshotId;

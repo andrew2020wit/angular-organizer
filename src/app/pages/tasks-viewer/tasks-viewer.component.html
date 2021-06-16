@@ -5,10 +5,7 @@
     </div>
     <ng-container *ngIf="preparedTasks[category]?.length">
       <div class="task-div" *ngFor="let task of preparedTasks[category]">
-        <a [routerLink]="'/edit-task/' + task.id">
-          {{ task.title }}
-          <span *ngIf="task.data"> : {{ task.data | date: 'dd-MM-yyyy: HH:mm' }}</span>
-        </a>
+        <app-task-card [task]="task"></app-task-card>
       </div>
     </ng-container>
   </div>

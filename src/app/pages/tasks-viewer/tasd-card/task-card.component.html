@@ -1,0 +1,6 @@
+<mat-card>
+  <div class="task-card" (click)="goToEdit()">
+    <div class="title">{{ task.title }}</div>
+    <div class="date">{{ task.date | date: 'dd-MM-yyyy: HH:mm' }}</div>
+  </div>
+</mat-card>

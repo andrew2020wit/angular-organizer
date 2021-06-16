@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { EmbeddedTaskCategories, ITask, TasksService } from '../../services/tasks.service';
+import { EmbeddedTaskCategories, Task, TasksService } from '../../services/tasks.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -42,7 +42,7 @@ export class TasksViewerComponent implements OnInit, OnDestroy {
     this.categories = this.tasksService.getTaskCategories();
   }
 
-  prepareTasks(tasks: ITask[]) {
+  prepareTasks(tasks: Task[]) {
     this.categories.forEach((category) => {
       this.preparedTasks[category] = [];
     });
@@ -51,10 +51,11 @@ export class TasksViewerComponent implements OnInit, OnDestroy {
       if (-1 === this.categories.indexOf(task.category)) {
         task.category = EmbeddedTaskCategories.Other;
       }
+      task.date = new Date(task.timestamp);
       this.preparedTasks[task.category].push(task);
     });
     this.categories.forEach((category) => {
-      this.preparedTasks[category].sort((a: ITask, b: ITask) => {
+      this.preparedTasks[category].sort((a: Task, b: Task) => {
         return a.timestamp - b.timestamp;
       });
     });
