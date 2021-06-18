@@ -1,3 +1,23 @@
 .task-card {
   cursor: pointer;
 }
+
+.overdue-task {
+  color: red;
+}
+
+.near-tasks {
+  color: #CCC;
+}
+
+.distant-tasks {
+  color: #EEE;
+}
+
+.current-task {
+  font-weight: bold;
+}
+
+mat-card {
+  border-radius: 0;
+}

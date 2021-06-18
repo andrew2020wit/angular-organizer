@@ -43,7 +43,6 @@ export class TasksService {
       if (!tasksIsChanged) {
         return;
       }
-      console.log('tasksIsChanged', this.tasksState);
       this.saveTaskToLocalStorage();
     });
   }
@@ -71,7 +70,6 @@ export class TasksService {
       // @ts-ignore
       res.push(EmbeddedTaskCategories[key]);
     }
-    console.log('getTaskCategories', res);
     return res;
   }
 
@@ -109,7 +107,6 @@ export class TasksService {
     const task = this.tasksState.tasks.find((item) => {
       return item.id === id;
     });
-    console.log('getTaskByID', task);
     return task;
   }
 

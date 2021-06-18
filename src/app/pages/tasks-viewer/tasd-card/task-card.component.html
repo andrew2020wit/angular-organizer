@@ -1,6 +1,10 @@
-<mat-card>
-  <div class="task-card" (click)="goToEdit()">
+<mat-card class="mat-elevation-z5">
+  <div
+    class="task-card"
+    (click)="goToEdit()"
+    [ngClass]="{ 'overdue-task': delta < -1, 'near-tasks': (delta > 1 && delta <= 7), 'distant-tasks': delta > 7, 'current-task': delta > -1 && delta < 1 }"
+  >
     <div class="title">{{ task.title }}</div>
-    <div class="date">{{ task.date | date: 'dd-MM-yyyy: HH:mm' }}</div>
+    <div class="date">{{ task.date | date: 'dd-MM-yyyy' }}</div>
   </div>
 </mat-card>
