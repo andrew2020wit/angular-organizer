@@ -1,4 +1,4 @@
-<mat-card class="mat-elevation-z5">
+<mat-card class="mat-elevation-z5" [ngClass]="{'high-priority': task.category == 'HighPriority'}">
   <div
     class="task-card"
     (click)="goToEdit()"
