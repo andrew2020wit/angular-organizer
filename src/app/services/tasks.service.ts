@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppErrorsService } from './app-errors.service';
 import {Router} from "@angular/router";
+import {DatePipe} from "@angular/common";
 
 const localStorageTaskKey = 'localStorageTaskStateKey';
 
@@ -43,7 +44,7 @@ export class TasksService {
 
   private tasksState = new TasksState();
 
-  constructor(private appErrorsService: AppErrorsService, private router: Router) {
+  constructor(private appErrorsService: AppErrorsService, private router: Router, private datePipe: DatePipe) {
     this.loadTasksFromLocalStorage();
     this.tasksStateIsChanged$.subscribe((tasksIsChanged) => {
       if (!tasksIsChanged) {
@@ -231,5 +232,20 @@ export class TasksService {
     this.tasksState = newState;
     this.saveTaskStateToLocalStorage();
     location.assign('');
+  }
+
+  static download(content: string, fileName: string, contentType: string) {
+    const a = document.createElement("a");
+    const file = new Blob([content], {type: contentType});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+  }
+
+  exportStateToJSON(){
+    const jsonData = JSON.stringify(this.tasksState);
+    const dateString = this.datePipe.transform(Date.now(), 'yyyy-MM-dd');
+    const fileName = 'tasks-state-' + dateString + '.json'
+    TasksService.download(jsonData, fileName, 'text/plain');
   }
 }
