@@ -25,6 +25,7 @@ import { PrioritiesComponent } from './pages/home-page/priorities/priorities.com
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {MatIconModule} from "@angular/material/icon";
 import { HistoryComponent } from './pages/home-page/history/history.component';
+import { TestPageComponent } from './pages/settings/test-page/test-page.component';
 
 const local = window.navigator.language;
 
@@ -39,6 +40,7 @@ const local = window.navigator.language;
     HomePageComponent,
     PrioritiesComponent,
     HistoryComponent,
+    TestPageComponent,
   ],
   imports: [
     MatNativeDateModule,

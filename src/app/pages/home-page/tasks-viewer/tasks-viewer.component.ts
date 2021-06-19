@@ -39,7 +39,6 @@ export class TasksViewerComponent implements OnInit, OnDestroy {
 
   prepareTasks(tasks: Task[]) {
     this.columnSetting = this.tasksService.getColumnSetting();
-    console.log(tasks)
     this.columnSetting.forEach(x => x.tasks = []);
     tasks.forEach((task) => {
       let taskAttached = false;

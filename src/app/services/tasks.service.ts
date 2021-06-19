@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppErrorsService } from './app-errors.service';
+import {Router} from "@angular/router";
 
 const localStorageTaskKey = 'localStorageTaskStateKey';
 
@@ -42,7 +43,7 @@ export class TasksService {
 
   private tasksState = new TasksState();
 
-  constructor(private appErrorsService: AppErrorsService) {
+  constructor(private appErrorsService: AppErrorsService, private router: Router) {
     this.loadTasksFromLocalStorage();
     this.tasksStateIsChanged$.subscribe((tasksIsChanged) => {
       if (!tasksIsChanged) {
@@ -53,12 +54,15 @@ export class TasksService {
   }
 
   loadTasksFromLocalStorage() {
-
     const tasksStateString = localStorage.getItem(localStorageTaskKey);
     if (tasksStateString) {
       const tasksState: TasksState = JSON.parse(tasksStateString);
       this.tasksState = tasksState;
       this.tasksStateIsChanged$.next(true);
+    } else {
+      if ( confirm('LocalStorage is empty. Do you want to init test data?')){
+        this.testInitDate();
+      }
     }
   }
 
@@ -68,9 +72,9 @@ export class TasksService {
 
   public getTasks() {
     const tasks = [...this.tasksState.tasks];
-    tasks.sort((a,b)=> {
-      return a.timestamp - b.timestamp
-    })
+    tasks.sort((a, b) => {
+      return a.timestamp - b.timestamp;
+    });
     return tasks;
   }
 
@@ -97,7 +101,7 @@ export class TasksService {
     } else {
       this.tasksState.tasks.splice(index, 1);
       this.tasksStateIsChanged$.next(true);
-      this.addHistory({date: new Date(), message: `Task "${task.title}" has deleted`})
+      this.addHistory({ date: new Date(), message: `Task "${task.title}" has deleted` });
     }
   }
 
@@ -131,25 +135,101 @@ export class TasksService {
 
   getTagArray(tagsString: string): string[] {
     tagsString.replace(/\s/g, ' ');
-    return tagsString.split(' ')
+    return tagsString.split(' ');
   }
 
-  setPriorities(priorities: string[]){
+  setPriorities(priorities: string[]) {
     this.tasksState.priorities = priorities;
     this.tasksStateIsChanged$.next(true);
   }
-  getPriorities(){
-    return this.tasksState.priorities
+  getPriorities() {
+    return this.tasksState.priorities;
   }
-  clearHistory(){
+  clearHistory() {
     this.tasksState.history = [];
     this.tasksStateIsChanged$.next(true);
   }
-  getHistory(){
+  getHistory() {
     return this.tasksState.history;
   }
-  addHistory(record: HistoryRecord){
+  addHistory(record: HistoryRecord) {
     this.tasksState.history.push(record);
     this.tasksStateIsChanged$.next(true);
+  }
+
+  deleteAll(){
+    localStorage.clear();
+    location.assign('');
+  }
+
+  testInitDate() {
+    const newState = new TasksState();
+    newState.columnSettings = [
+      { title: 'main', tags: '' },
+      { title: 'column2', tags: 'tag1 tag2' },
+      { title: 'column3', tags: 'tag3 tag4' },
+    ];
+    newState.priorities = [
+      'priority1',
+      'priority2',
+      'priority3',
+      'priority4',
+      'priority5',
+      'priority6',
+    ];
+    const tasks = newState.tasks;
+
+    newState.currentIdCount = 10000;
+
+    let currentTimeStamp = Date.now();
+
+    currentTimeStamp -= 3600 * 24 * 5 * 1000;
+
+    for (let i = 0; i < 20; i++) {
+      const newTask = new Task();
+      newTask.id = i + 100;
+      newTask.title = `task N${i} - tag1`;
+      newTask.tags = 'tag1';
+      newTask.highPriority = false;
+      newTask.timestamp = currentTimeStamp;
+      tasks.push(newTask);
+
+      const newTask2 = new Task();
+      newTask2.id = i + 200;
+      newTask2.title = `task N${i}`;
+      newTask2.tags = '';
+      newTask2.highPriority = false;
+      newTask2.timestamp = currentTimeStamp;
+      tasks.push(newTask2);
+
+      const newTask3 = new Task();
+      newTask3.id = i + 300;
+      newTask3.title = `task N${i} - tag3`;
+      newTask3.tags = 'tag3';
+      newTask3.highPriority = false;
+      newTask3.timestamp = currentTimeStamp;
+      tasks.push(newTask3);
+
+      const newTask4 = new Task();
+      newTask4.id = i + 400;
+      newTask4.title = `task N${i} - tag7`;
+      newTask4.tags = 'tag7';
+      newTask4.highPriority = false;
+      newTask4.timestamp = currentTimeStamp;
+      tasks.push(newTask4);
+
+      const newTask5 = new Task();
+      newTask5.id = i + 500;
+      newTask5.title = `task N${i} - tag2`;
+      newTask5.tags = 'tag2';
+      newTask5.highPriority = true;
+      newTask5.timestamp = currentTimeStamp;
+      tasks.push(newTask5);
+
+      currentTimeStamp += 3600 * 24 * 1000;
+    }
+    this.tasksState = newState;
+    this.saveTaskStateToLocalStorage();
+    location.assign('');
   }
 }
