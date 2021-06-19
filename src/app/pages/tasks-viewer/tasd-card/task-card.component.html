@@ -1,8 +1,13 @@
-<mat-card class="mat-elevation-z5" [ngClass]="{'high-priority': task.category == 'HighPriority'}">
+<mat-card class="mat-elevation-z5" [ngClass]="{ 'high-priority': task.highPriority }">
   <div
     class="task-card"
     (click)="goToEdit()"
-    [ngClass]="{ 'overdue-task': delta < -1, 'near-tasks': (delta > 1 && delta <= 7), 'distant-tasks': delta > 7, 'current-task': delta > -1 && delta < 1 }"
+    [ngClass]="{
+      'overdue-task': delta < -1,
+      'near-tasks': delta > 1 && delta <= 7,
+      'distant-tasks': delta > 7,
+      'current-task': delta > -1 && delta < 1
+    }"
   >
     <div class="title">{{ task.title }}</div>
     <div class="date">{{ task.date | date: 'dd-MM-yyyy' }}</div>

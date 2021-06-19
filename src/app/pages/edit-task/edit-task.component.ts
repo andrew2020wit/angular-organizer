@@ -9,17 +9,9 @@ import { AppErrorsService } from '../../services/app-errors.service';
   styleUrls: ['./edit-task.component.scss'],
 })
 export class EditTaskComponent implements OnInit {
-  task: Task = {
-    id: 0,
-    title: '',
-    description: '',
-    category: 'main',
-    timestamp: 0,
-  };
+  task = new Task();
 
   selectedDate = new Date();
-
-  categories: string[] = [];
 
   constructor(
     private taskService: TasksService,
@@ -27,7 +19,6 @@ export class EditTaskComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private appErrorService: AppErrorsService,
   ) {
-    this.categories = this.taskService.getTaskCategories();
     this.getCurrentTask();
   }
 

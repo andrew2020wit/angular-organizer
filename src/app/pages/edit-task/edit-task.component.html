@@ -12,16 +12,7 @@
     </button>
     <button mat-button color="warn" (click)="deleteTask()" *ngIf="task.id">Delete task</button>
   </div>
-  <div class="category">
-    <mat-form-field>
-      <mat-label>Category</mat-label>
-      <mat-select [(ngModel)]="task.category" name="edit-task-category">
-        <mat-option *ngFor="let category of categories" [value]="category">
-          {{ category }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+
   <div class="date-field">
     <div class="date-inner-field">
       <mat-form-field appearance="fill">

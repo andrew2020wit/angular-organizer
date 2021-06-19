@@ -4,13 +4,6 @@ import { AppErrorsService } from './app-errors.service';
 
 const localStorageTaskKey = 'localStorageTaskKey';
 
-export const EmbeddedTaskCategories = {
-  Main: 'Main',
-  HighPriority: 'HighPriority',
-  Postponed: 'Postponed',
-  Other: 'Other',
-} as const;
-
 export class Task {
   id?: number;
   title = '';
@@ -18,12 +11,16 @@ export class Task {
   timestamp = 0;
   periodTimestamp?: number;
   date?: Date;
-  category = 'main';
+  tags = '';
+  highPriority = false;
 }
 
-interface ITasksState {
-  currentIdCount: number;
-  tasks: Task[];
+class TasksState {
+  currentIdCount = 1;
+  tasks: Task[] = [];
+  columnTags: string[] = [];
+  history: Task[] = [];
+  priorities: string[] = [];
 }
 
 @Injectable({
@@ -32,10 +29,7 @@ interface ITasksState {
 export class TasksService {
   public tasksIsChanged$ = new BehaviorSubject<boolean>(false);
 
-  private tasksState: ITasksState = {
-    currentIdCount: 1,
-    tasks: [],
-  };
+  private tasksState = new TasksState();
 
   constructor(private appErrorsService: AppErrorsService) {
     this.loadTasksFromLocalStorage();
@@ -50,7 +44,7 @@ export class TasksService {
   loadTasksFromLocalStorage() {
     const tasksStateString = localStorage.getItem(localStorageTaskKey);
     if (tasksStateString) {
-      const tasksState: ITasksState = JSON.parse(tasksStateString);
+      const tasksState: TasksState = JSON.parse(tasksStateString);
       if (!tasksState.currentIdCount || !tasksState.tasks.length) {
         return;
       }
@@ -62,15 +56,6 @@ export class TasksService {
 
   private saveTaskToLocalStorage() {
     localStorage.setItem(localStorageTaskKey, JSON.stringify(this.tasksState));
-  }
-
-  public getTaskCategories() {
-    const res = [];
-    for (let key in EmbeddedTaskCategories) {
-      // @ts-ignore
-      res.push(EmbeddedTaskCategories[key]);
-    }
-    return res;
   }
 
   public getTaskArray() {
