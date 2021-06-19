@@ -14,10 +14,11 @@ export class TasksViewerComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new Subject<void>();
 
   constructor(private tasksService: TasksService) {
+    this.tasksIsChangedSubscribe();
   }
 
   ngOnInit(): void {
-    this.tasksIsChangedSubscribe();
+
   }
 
   ngOnDestroy(): void {

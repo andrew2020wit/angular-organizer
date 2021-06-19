@@ -24,6 +24,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { PrioritiesComponent } from './pages/home-page/priorities/priorities.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {MatIconModule} from "@angular/material/icon";
+import { HistoryComponent } from './pages/home-page/history/history.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {MatIconModule} from "@angular/material/icon";
     ColumnSettingComponent,
     HomePageComponent,
     PrioritiesComponent,
+    HistoryComponent,
   ],
   imports: [
     MatNativeDateModule,

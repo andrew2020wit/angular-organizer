@@ -20,12 +20,17 @@ export class ColumnSetting {
   tasks?: Task[];
 }
 
+export class HistoryRecord {
+  date = new Date();
+  message = '';
+}
+
 class TasksState {
   stateVersion = 1;
   currentIdCount = 1;
   tasks: Task[] = [];
   columnSettings: ColumnSetting[] = [{ title: 'main', tags: '' }];
-  history: Task[] = [];
+  history: HistoryRecord[] = [];
   priorities: string[] = [];
 }
 
@@ -92,6 +97,7 @@ export class TasksService {
     } else {
       this.tasksState.tasks.splice(index, 1);
       this.tasksStateIsChanged$.next(true);
+      this.addHistory({date: new Date(), message: `Task "${task.title}" has deleted`})
     }
   }
 
@@ -134,5 +140,16 @@ export class TasksService {
   }
   getPriorities(){
     return this.tasksState.priorities
+  }
+  clearHistory(){
+    this.tasksState.history = [];
+    this.tasksStateIsChanged$.next(true);
+  }
+  getHistory(){
+    return this.tasksState.history;
+  }
+  addHistory(record: HistoryRecord){
+    this.tasksState.history.push(record);
+    this.tasksStateIsChanged$.next(true);
   }
 }
