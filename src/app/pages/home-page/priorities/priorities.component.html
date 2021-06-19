@@ -1,11 +1,24 @@
 <div class="priority-component">
   <mat-form-field class="new-priority-title">
     <mat-label>New priority</mat-label>
-    <input matInput name="NewPriority" [(ngModel)]="newPriority">
+    <input matInput name="NewPriority" [(ngModel)]="newPriority" />
   </mat-form-field>
-  <button class="add-button" mat-button color="primary" (click)="addPriority()" [disabled]="!newPriority">Add</button>
+  <button
+    class="add-button"
+    mat-button
+    color="primary"
+    (click)="addPriority()"
+    [disabled]="!newPriority"
+  >
+    Add
+  </button>
 
-  <div cdkDropList class="priority-list" (cdkDropListDropped)="drop($event)" *ngIf="priorities.length">
+  <div
+    cdkDropList
+    class="priority-list"
+    (cdkDropListDropped)="drop($event);"
+    *ngIf="priorities.length"
+  >
     <div class="priority-item" *ngFor="let priority of priorities; let index = index" cdkDrag>
       <div class="priority-content">
         <div class="priority-title">
@@ -17,8 +30,6 @@
           </button>
         </div>
       </div>
-
     </div>
   </div>
-
 </div>

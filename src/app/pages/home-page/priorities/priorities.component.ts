@@ -21,6 +21,7 @@ export class PrioritiesComponent implements OnInit {
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.priorities, event.previousIndex, event.currentIndex);
+    this.tasksService.setPriorities(this.priorities);
   }
 
   addPriority(){
