@@ -18,10 +18,14 @@ export class ColumnSettingComponent implements OnInit {
   }
 
   addNewColumn() {
-
+      this.columnSettings.push({title: '', tags: ''})
   }
 
   removeColumn(index: number){
+      this.columnSettings.splice(index, 1);
+  }
+
+  saveSettings(){
 
   }
 
