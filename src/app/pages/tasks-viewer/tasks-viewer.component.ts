@@ -25,7 +25,7 @@ export class TasksViewerComponent implements OnInit, OnDestroy {
   }
 
   private tasksIsChangedSubscribe() {
-    this.tasksService.tasksIsChanged$
+    this.tasksService.tasksStateIsChanged$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((tasksIsChanged) => {
         if (!tasksIsChanged) {

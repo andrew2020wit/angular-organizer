@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppErrorsService } from './app-errors.service';
 
-const localStorageTaskKey = 'localStorageTaskKey';
+const localStorageTaskKey = 'localStorageTaskStateKey';
 
 export class Task {
   id = 0;
@@ -21,9 +21,10 @@ export class ColumnSetting {
 }
 
 class TasksState {
+  stateVersion = 1;
   currentIdCount = 1;
   tasks: Task[] = [];
-  columnSetting: ColumnSetting[] = [{ title: 'main', tags: '' }];
+  columnSettings: ColumnSetting[] = [{ title: 'main', tags: '' }];
   history: Task[] = [];
   priorities: string[] = [];
 }
@@ -32,34 +33,31 @@ class TasksState {
   providedIn: 'root',
 })
 export class TasksService {
-  public tasksIsChanged$ = new BehaviorSubject<boolean>(false);
+  public tasksStateIsChanged$ = new BehaviorSubject<boolean>(false);
 
   private tasksState = new TasksState();
 
   constructor(private appErrorsService: AppErrorsService) {
     this.loadTasksFromLocalStorage();
-    this.tasksIsChanged$.subscribe((tasksIsChanged) => {
+    this.tasksStateIsChanged$.subscribe((tasksIsChanged) => {
       if (!tasksIsChanged) {
         return;
       }
-      this.saveTaskToLocalStorage();
+      this.saveTaskStateToLocalStorage();
     });
   }
 
   loadTasksFromLocalStorage() {
+
     const tasksStateString = localStorage.getItem(localStorageTaskKey);
     if (tasksStateString) {
       const tasksState: TasksState = JSON.parse(tasksStateString);
-      if (!tasksState.currentIdCount || !tasksState.tasks.length) {
-        return;
-      }
-      this.tasksState.currentIdCount = tasksState.currentIdCount;
-      this.tasksState.tasks = tasksState.tasks;
-      this.tasksIsChanged$.next(true);
+      this.tasksState = tasksState;
+      this.tasksStateIsChanged$.next(true);
     }
   }
 
-  private saveTaskToLocalStorage() {
+  private saveTaskStateToLocalStorage() {
     localStorage.setItem(localStorageTaskKey, JSON.stringify(this.tasksState));
   }
 
@@ -73,10 +71,10 @@ export class TasksService {
     });
     if (index === -1) {
       this.tasksState.tasks.push(task);
-      this.tasksIsChanged$.next(true);
+      this.tasksStateIsChanged$.next(true);
     } else {
       this.tasksState.tasks.splice(index, 1, task);
-      this.tasksIsChanged$.next(true);
+      this.tasksStateIsChanged$.next(true);
     }
   }
 
@@ -89,7 +87,7 @@ export class TasksService {
       console.error('TasksService: task was not fined', task);
     } else {
       this.tasksState.tasks.splice(index, 1);
-      this.tasksIsChanged$.next(true);
+      this.tasksStateIsChanged$.next(true);
     }
   }
 
@@ -109,6 +107,15 @@ export class TasksService {
   }
 
   getColumnSetting() {
-    return [...this.tasksState.columnSetting];
+    const res: ColumnSetting[] = [];
+    this.tasksState.columnSettings.forEach((columnSetting) => {
+      res.push(Object.assign({}, columnSetting));
+    });
+    return res;
+  }
+
+  saveColumnSetting(columnSetting: ColumnSetting[]) {
+    this.tasksState.columnSettings = columnSetting;
+    this.tasksStateIsChanged$.next(true);
   }
 }
