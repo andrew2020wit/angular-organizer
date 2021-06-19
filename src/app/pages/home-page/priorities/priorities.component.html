@@ -1,7 +1,7 @@
 <div class="priority-component">
   <mat-form-field class="new-priority-title">
     <mat-label>New priority</mat-label>
-    <input matInput name="NewPriority" [(ngModel)]="newPriority" />
+    <input matInput name="NewPriority" [(ngModel)]="newPriority" (keyup.enter)="addPriority()" />
   </mat-form-field>
   <button
     class="add-button"
@@ -16,7 +16,7 @@
   <div
     cdkDropList
     class="priority-list"
-    (cdkDropListDropped)="drop($event);"
+    (cdkDropListDropped)="drop($event)"
     *ngIf="priorities.length"
   >
     <div class="priority-item" *ngFor="let priority of priorities; let index = index" cdkDrag>

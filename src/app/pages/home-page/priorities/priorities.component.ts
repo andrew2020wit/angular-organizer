@@ -51,6 +51,6 @@ export class PrioritiesComponent implements OnDestroy {
     const title = this.priorities[index];
     this.priorities.splice(index, 1);
     this.tasksService.setPriorities(this.priorities);
-    this.tasksService.addHistory({date: new Date(), message: `Priority "${title}" has deleted`})
+    this.tasksService.addHistory({ date: new Date(), message: `Priority "${title}" has deleted` });
   }
 }

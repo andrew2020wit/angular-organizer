@@ -1,7 +1,7 @@
 <div class="new-task-container">
   <mat-form-field class="title-field">
     <mat-label>Title</mat-label>
-    <textarea matInput [(ngModel)]="task.title" name="edit-task-title"></textarea>
+    <textarea matInput [(ngModel)]="task.title" (keyup.enter)="editTask()" name="edit-task-title"></textarea>
   </mat-form-field>
   <div class="task-toolbar">
     <mat-checkbox class="priority-checkbox" [(ngModel)]="task.highPriority"
