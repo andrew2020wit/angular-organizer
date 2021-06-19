@@ -12,10 +12,13 @@ export class TaskCardComponent implements OnInit {
 
   delta = 0;
 
+  taskDate = new Date()
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.delta = (this.task.timestamp - Date.now())/(3600*1000*24);
+    this.taskDate = new Date(this.task.timestamp);
   }
 
   goToEdit() {

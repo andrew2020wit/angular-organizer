@@ -10,7 +10,6 @@ export class Task {
   description = '';
   timestamp = 0;
   periodTimestamp = 0;
-  date?: Date;
   tags = '';
   highPriority = false;
 }
