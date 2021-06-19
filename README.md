@@ -1,7 +1,7 @@
 # AngularOrganizer
 
-Simple organizer.
+Simple organizer, based on Angular, MaterialUI.
 
-Based on Angular, MaterialUI, @angular/flex-layout.
+Tasks, tags, drag-drop-list, import/export from/to JSON.
 
 MIT license.

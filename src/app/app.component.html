@@ -37,7 +37,11 @@
   </div>
   <div class="footer">
     <mat-toolbar>
-      <div class="footer-line"><div class="license">MIT License</div></div></mat-toolbar
+      <div class="footer-line">
+        <a routerLink="/about" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          About
+        </a>
+      </div></mat-toolbar
     >
   </div>
 </div>

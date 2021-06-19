@@ -27,6 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { HistoryComponent } from './pages/home-page/history/history.component';
 import { TestPageComponent } from './pages/settings/test-page/test-page.component';
 import { DatePipe } from '@angular/common';
+import { AboutComponent } from './pages/about/about.component';
 
 const local = window.navigator.language;
 
@@ -42,6 +43,7 @@ const local = window.navigator.language;
     PrioritiesComponent,
     HistoryComponent,
     TestPageComponent,
+    AboutComponent,
   ],
   imports: [
     MatNativeDateModule,
