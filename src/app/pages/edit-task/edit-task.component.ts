@@ -12,6 +12,7 @@ export class EditTaskComponent implements OnInit {
   task = new Task();
 
   selectedDate = new Date();
+  nextDate = new Date();
 
   constructor(
     private taskService: TasksService,

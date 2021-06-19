@@ -5,11 +5,11 @@ import { AppErrorsService } from './app-errors.service';
 const localStorageTaskKey = 'localStorageTaskKey';
 
 export class Task {
-  id?: number;
+  id = 0;
   title = '';
-  description?: string;
+  description = '';
   timestamp = 0;
-  periodTimestamp?: number;
+  periodTimestamp = 0;
   date?: Date;
   tags = '';
   highPriority = false;
