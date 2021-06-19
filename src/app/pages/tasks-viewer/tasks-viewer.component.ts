@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Task, TasksService } from '../../services/tasks.service';
+import { ColumnSetting, Task, TasksService } from '../../services/tasks.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -9,11 +9,12 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./tasks-viewer.component.scss'],
 })
 export class TasksViewerComponent implements OnInit, OnDestroy {
-  preparedTasks: any = {};
+  columnSetting: ColumnSetting[] = [];
 
   private readonly unsubscribe$ = new Subject<void>();
 
-  constructor(private tasksService: TasksService) {}
+  constructor(private tasksService: TasksService) {
+  }
 
   ngOnInit(): void {
     this.tasksIsChangedSubscribe();
@@ -31,12 +32,33 @@ export class TasksViewerComponent implements OnInit, OnDestroy {
         if (!tasksIsChanged) {
           return;
         }
-        this.prepareTasks(this.tasksService.getTaskArray());
+        this.prepareTasks(this.tasksService.getTasks());
       });
   }
 
-
-
   prepareTasks(tasks: Task[]) {
+    this.columnSetting = this.tasksService.getColumnSetting();
+    console.log(tasks)
+    this.columnSetting.forEach(x => x.tasks = []);
+    tasks.forEach((task) => {
+      let taskAttached = false;
+      const taskTags = this.tasksService.getTagArray(task.tags);
+      this.columnSetting.forEach((column) => {
+        const columnTags = this.tasksService.getTagArray(column.tags);
+        let exist = false;
+        taskTags.forEach((taskTag) => {
+          if (columnTags.indexOf(taskTag) > -1) {
+            exist = true;
+          }
+        });
+        if (exist) {
+          column.tasks?.push(task);
+          taskAttached = true;
+        }
+      });
+      if (!taskAttached){
+        this.columnSetting[0].tasks?.push(task);
+      }
+    });
   }
 }

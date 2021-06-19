@@ -18,6 +18,7 @@ export class Task {
 export class ColumnSetting {
   title = '';
   tags = '';
+  tasks?: Task[];
 }
 
 class TasksState {
@@ -61,8 +62,12 @@ export class TasksService {
     localStorage.setItem(localStorageTaskKey, JSON.stringify(this.tasksState));
   }
 
-  public getTaskArray() {
-    return this.tasksState.tasks;
+  public getTasks() {
+    const tasks = [...this.tasksState.tasks];
+    tasks.sort((a,b)=> {
+      return a.timestamp - b.timestamp
+    })
+    return tasks;
   }
 
   private insertTask(task: Task) {
@@ -117,5 +122,10 @@ export class TasksService {
   saveColumnSetting(columnSetting: ColumnSetting[]) {
     this.tasksState.columnSettings = columnSetting;
     this.tasksStateIsChanged$.next(true);
+  }
+
+  getTagArray(tagsString: string): string[] {
+    tagsString.replace(/\s/g, ' ');
+    return tagsString.split(' ')
   }
 }

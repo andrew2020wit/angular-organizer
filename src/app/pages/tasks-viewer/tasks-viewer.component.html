@@ -1,12 +1,12 @@
 <div class="tasks-viewer">
-  <div class="category-column" >
+  <div class="tasks-column" *ngFor="let column of columnSetting" >
     <div class="column-header">
-
+        {{column.title}}
     </div>
-<!--    <ng-container *ngIf="preparedTasks[category]?.length">-->
-<!--      <div class="task-div" *ngFor="let task of preparedTasks[category]">-->
-<!--        <app-task-card [task]="task"></app-task-card>-->
-<!--      </div>-->
-<!--    </ng-container>-->
+    <ng-container *ngIf="column.tasks?.length">
+      <div class="task-div" *ngFor="let task of column.tasks">
+        <app-task-card [task]="task"></app-task-card>
+      </div>
+    </ng-container>
   </div>
 </div>

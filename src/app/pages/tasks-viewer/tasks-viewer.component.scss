@@ -1,15 +1,13 @@
 .tasks-viewer {
-  display: flex;
-}
-.category-column {
-  display: flex;
-  flex-direction: column;
-  div {
+    display: flex;
+
+  .tasks-column {
+    display: flex;
+    flex-direction: column;
     margin: 1rem;
+    div {
+      margin: 1rem;
+    }
   }
-}
 
-.task-div {
-
-  background-color: antiquewhite;
 }
