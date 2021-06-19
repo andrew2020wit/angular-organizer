@@ -34,6 +34,9 @@ export class EditTaskComponent implements OnInit {
         this.appErrorService.newError('EditTaskComponent: cannot get task');
       } else {
         this.task = Object.assign({}, task);
+        console.log(task);
+        this.selectedDate = new Date(this.task.timestamp);
+        this.nextDate = new Date(this.task.timestamp + this.task.periodTimestamp);
       }
     }
   }
@@ -49,6 +52,22 @@ export class EditTaskComponent implements OnInit {
   }
   deleteTask() {
     this.taskService.deleteTask(this.task);
+    this.router.navigate(['']);
+  }
+
+  setPeriodTimestamp() {
+    this.task.periodTimestamp = this.nextDate.getTime() - this.task.timestamp;
+    console.log(this.task.periodTimestamp / (3600 * 24 * 1000));
+    if (this.task.periodTimestamp < 0) {
+      this.task.periodTimestamp = 0;
+    }
+  }
+  nextRound() {
+    if (!this.task.periodTimestamp) {
+      return;
+    }
+    this.task.timestamp += this.task.periodTimestamp;
+    this.taskService.editTask(this.task);
     this.router.navigate(['']);
   }
 }

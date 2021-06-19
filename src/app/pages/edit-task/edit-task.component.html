@@ -12,10 +12,19 @@
       <span *ngIf="task.id != 0">Edit task</span>
     </button>
     <button mat-button color="warn" (click)="deleteTask()" *ngIf="task.id">Delete task</button>
+    <button
+      mat-button
+      color="primary"
+      (click)="nextRound()"
+      *ngIf="task.id"
+      [disabled]="!task.periodTimestamp"
+    >
+      Next Round
+    </button>
   </div>
   <mat-form-field class="tags-input">
     <mat-label>Tags</mat-label>
-    <input matInput placeholder="tag1 tag2 tag3 tag4"  name="tags" [(ngModel)]="task.tags">
+    <input matInput placeholder="tag1 tag2 tag3 tag4" name="tags" [(ngModel)]="task.tags" />
   </mat-form-field>
   <mat-form-field appearance="fill" class="date-field">
     <mat-label>Task Date</mat-label>
@@ -25,7 +34,13 @@
   </mat-form-field>
   <mat-form-field appearance="fill" class="next-date-field">
     <mat-label>Next Task Date</mat-label>
-    <input matInput [matDatepicker]="picker2" [(ngModel)]="nextDate" name="next-task-date" />
+    <input
+      matInput
+      [matDatepicker]="picker2"
+      [(ngModel)]="nextDate"
+      (dateChange)="setPeriodTimestamp()"
+      name="next-task-date"
+    />
     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
     <mat-datepicker #picker2></mat-datepicker>
   </mat-form-field>
