@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppErrorsService } from './app-errors.service';
-import {Router} from "@angular/router";
-import {DatePipe} from "@angular/common";
+import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 const localStorageTaskKey = 'localStorageTaskStateKey';
 
@@ -44,7 +44,11 @@ export class TasksService {
 
   private tasksState = new TasksState();
 
-  constructor(private appErrorsService: AppErrorsService, private router: Router, private datePipe: DatePipe) {
+  constructor(
+    private appErrorsService: AppErrorsService,
+    private router: Router,
+    private datePipe: DatePipe,
+  ) {
     this.loadTasksFromLocalStorage();
     this.tasksStateIsChanged$.subscribe((tasksIsChanged) => {
       if (!tasksIsChanged) {
@@ -61,7 +65,7 @@ export class TasksService {
       this.tasksState = tasksState;
       this.tasksStateIsChanged$.next(true);
     } else {
-      if ( confirm('LocalStorage is empty. Do you want to init test data?')){
+      if (confirm('LocalStorage is empty. Do you want to init test data?')) {
         this.testInitDate();
       }
     }
@@ -158,7 +162,7 @@ export class TasksService {
     this.tasksStateIsChanged$.next(true);
   }
 
-  deleteAll(){
+  deleteAll() {
     localStorage.clear();
     location.assign('');
   }
@@ -235,17 +239,30 @@ export class TasksService {
   }
 
   static download(content: string, fileName: string, contentType: string) {
-    const a = document.createElement("a");
-    const file = new Blob([content], {type: contentType});
+    const a = document.createElement('a');
+    const file = new Blob([content], { type: contentType });
     a.href = URL.createObjectURL(file);
     a.download = fileName;
     a.click();
   }
 
-  exportStateToJSON(){
+  exportStateToJSON() {
     const jsonData = JSON.stringify(this.tasksState);
     const dateString = this.datePipe.transform(Date.now(), 'yyyy-MM-dd');
-    const fileName = 'tasks-state-' + dateString + '.json'
+    const fileName = 'tasks-state-' + dateString + '.json';
     TasksService.download(jsonData, fileName, 'text/plain');
+  }
+
+  importFromJSON(json: string) {
+    if (!json) {
+      return;
+    }
+    const tasksState: TasksState = JSON.parse(json);
+    if (!tasksState.stateVersion) {
+      return;
+    }
+    this.tasksState = tasksState;
+    this.saveTaskStateToLocalStorage();
+    location.assign('');
   }
 }
