@@ -15,10 +15,15 @@ export class Task {
   highPriority = false;
 }
 
+export class ColumnSetting {
+  title = '';
+  tags = '';
+}
+
 class TasksState {
   currentIdCount = 1;
   tasks: Task[] = [];
-  columnTags: string[] = [];
+  columnSetting: ColumnSetting[] = [{ title: 'main', tags: '' }];
   history: Task[] = [];
   priorities: string[] = [];
 }
@@ -101,5 +106,9 @@ export class TasksService {
       this.tasksState.currentIdCount++;
     }
     this.insertTask(task);
+  }
+
+  getColumnSetting() {
+    return [...this.tasksState.columnSetting];
   }
 }

@@ -1,0 +1,24 @@
+<div class="column-setting-container">
+
+  <div class="column-setting" *ngFor="let columnSetting of columnSettings">
+    <mat-form-field class="column-title">
+      <mat-label>column-title</mat-label>
+      <input
+        matInput
+        name="column-title"
+        [(ngModel)]="columnSetting.title"
+      />
+    </mat-form-field>
+    <mat-form-field class="column-tags">
+      <mat-label>column-tags</mat-label>
+      <input
+        matInput
+        name="column-tags"
+        placeholder="tag1 tag2 tag3"
+        [(ngModel)]="columnSetting.tags"
+      />
+    </mat-form-field>
+
+  </div>
+
+</div>

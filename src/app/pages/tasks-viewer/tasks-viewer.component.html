@@ -1,12 +1,12 @@
-<div class="tasks-viewer" *ngIf="categories.length">
-  <div class="category-column" *ngFor="let category of categories">
+<div class="tasks-viewer">
+  <div class="category-column" >
     <div class="column-header">
-      <h3>{{ category }}</h3>
+
     </div>
-    <ng-container *ngIf="preparedTasks[category]?.length">
-      <div class="task-div" *ngFor="let task of preparedTasks[category]">
-        <app-task-card [task]="task"></app-task-card>
-      </div>
-    </ng-container>
+<!--    <ng-container *ngIf="preparedTasks[category]?.length">-->
+<!--      <div class="task-div" *ngFor="let task of preparedTasks[category]">-->
+<!--        <app-task-card [task]="task"></app-task-card>-->
+<!--      </div>-->
+<!--    </ng-container>-->
   </div>
 </div>

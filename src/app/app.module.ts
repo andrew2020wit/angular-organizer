@@ -18,6 +18,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { TaskCardComponent } from './pages/tasks-viewer/tasd-card/task-card.component';
 import {MatCardModule} from "@angular/material/card";
+import { ColumnSettingComponent } from './pages/settings/column-setting/column-setting.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import {MatCardModule} from "@angular/material/card";
     SettingsComponent,
     EditTaskComponent,
     TaskCardComponent,
+    ColumnSettingComponent,
   ],
   imports: [
     MatNativeDateModule,
@@ -42,6 +45,7 @@ import {MatCardModule} from "@angular/material/card";
     MatButtonModule,
     MatToolbarModule,
     MatCardModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

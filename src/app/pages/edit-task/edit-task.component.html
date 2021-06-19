@@ -13,7 +13,10 @@
     </button>
     <button mat-button color="warn" (click)="deleteTask()" *ngIf="task.id">Delete task</button>
   </div>
-
+  <mat-form-field class="tags-input">
+    <mat-label>Tags</mat-label>
+    <input matInput placeholder="tag1 tag2 tag3 tag4"  name="tags" [(ngModel)]="task.tags">
+  </mat-form-field>
   <mat-form-field appearance="fill" class="date-field">
     <mat-label>Task Date</mat-label>
     <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" name="edit-task-date" />

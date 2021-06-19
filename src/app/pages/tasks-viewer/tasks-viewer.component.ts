@@ -15,8 +15,6 @@ export class TasksViewerComponent implements OnInit, OnDestroy {
 
   constructor(private tasksService: TasksService) {}
 
-  categories: string[] = [];
-
   ngOnInit(): void {
     this.tasksIsChangedSubscribe();
   }
