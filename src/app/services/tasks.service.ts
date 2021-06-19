@@ -127,4 +127,12 @@ export class TasksService {
     tagsString.replace(/\s/g, ' ');
     return tagsString.split(' ')
   }
+
+  setPriorities(priorities: string[]){
+    this.tasksState.priorities = priorities;
+    this.tasksStateIsChanged$.next(true);
+  }
+  getPriorities(){
+    return this.tasksState.priorities
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ColumnSetting, Task, TasksService } from '../../services/tasks.service';
+import { ColumnSetting, Task, TasksService } from '../../../services/tasks.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
