@@ -5,6 +5,13 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 
 const localStorageTaskKey = 'localStorageTaskStateKey';
+const localStorageTimersKey = 'localStorageTimersKey';
+
+interface ExportImportObject {
+  version: number;
+  tasks: TasksState;
+  timers: TimerItem[];
+}
 
 export class Task {
   id = 0;
@@ -14,6 +21,14 @@ export class Task {
   periodTimestamp = 0;
   tags = '';
   highPriority = false;
+}
+
+export class TimerItem {
+  label = '';
+  countOfMinute = 0;
+  isRun = false;
+  isDone = false;
+  restOfSecond = 0;
 }
 
 export class ColumnSetting {
@@ -43,6 +58,7 @@ export class TasksService {
   public tasksStateIsChanged$ = new BehaviorSubject<boolean>(false);
 
   private tasksState = new TasksState();
+  private timers: TimerItem[] = [];
 
   constructor(
     private appErrorsService: AppErrorsService,
@@ -56,9 +72,49 @@ export class TasksService {
       }
       this.saveTaskStateToLocalStorage();
     });
+    this.loadTimersFromLocalStorage();
+    this.runTimers();
   }
 
-  loadTasksFromLocalStorage() {
+  runTimers() {
+    setInterval(() => {
+      this.timers.forEach((timer) => {
+        if (timer.restOfSecond < 1) {
+          timer.restOfSecond = timer.countOfMinute * 60;
+          if (timer.isRun) {
+            timer.isRun = false;
+            timer.isDone = true;
+          }
+        }
+        if (!timer.isRun) {
+          return;
+        }
+        timer.restOfSecond -= 1;
+      });
+    }, 1000);
+  }
+
+  private loadTimersFromLocalStorage() {
+    const localStorageTimersString = localStorage.getItem(localStorageTimersKey);
+    if (localStorageTimersString) {
+      this.timers = JSON.parse(localStorageTimersString);
+      this.timers.forEach((timer) => {
+        timer.restOfSecond = timer.countOfMinute * 60;
+        timer.isDone = false;
+        timer.isRun = false;
+      });
+    }
+  }
+
+  private saveTimersToLocalStorage() {
+    localStorage.setItem(localStorageTimersKey, JSON.stringify(this.timers));
+  }
+
+  public saveTimers() {
+    this.saveTimersToLocalStorage();
+  }
+
+  private loadTasksFromLocalStorage() {
     const tasksStateString = localStorage.getItem(localStorageTaskKey);
     if (tasksStateString) {
       const tasksState: TasksState = JSON.parse(tasksStateString);
@@ -69,6 +125,10 @@ export class TasksService {
         this.testInitDate();
       }
     }
+  }
+
+  getTimers() {
+    return this.timers;
   }
 
   private saveTaskStateToLocalStorage() {
@@ -247,7 +307,12 @@ export class TasksService {
   }
 
   exportStateToJSON() {
-    const jsonData = JSON.stringify(this.tasksState);
+    const exportObj: ExportImportObject = {
+      version: 2,
+      tasks: this.tasksState,
+      timers: this.timers,
+    };
+    const jsonData = JSON.stringify(exportObj);
     const dateString = this.datePipe.transform(Date.now(), 'yyyy-MM-dd');
     const fileName = 'tasks-state-' + dateString + '.json';
     TasksService.download(jsonData, fileName, 'text/plain');
@@ -257,12 +322,16 @@ export class TasksService {
     if (!json) {
       return;
     }
-    const tasksState: TasksState = JSON.parse(json);
-    if (!tasksState.stateVersion) {
-      return;
+    const exportImportObject: ExportImportObject = JSON.parse(json);
+    if (exportImportObject.version !== 2) {
+      if (confirm('exportImportObject.version !== 2, abort?')) {
+        return;
+      }
     }
-    this.tasksState = tasksState;
+    this.tasksState = exportImportObject.tasks;
+    this.timers = exportImportObject.timers;
     this.saveTaskStateToLocalStorage();
+    this.saveTimersToLocalStorage();
     location.assign('');
   }
 }

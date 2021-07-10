@@ -1,0 +1,23 @@
+.app-timers {
+  max-width: 800px;
+  margin: auto;
+  .tool-panel {
+    display: flex;
+  }
+  .timer {
+    display: flex;
+    align-items: baseline;
+    mat-form-field {
+      margin: 1rem;
+    }
+    .minute,
+    .seconds {
+      height: fit-content;
+      margin: 0.5rem;
+    }
+  }
+
+  .timer-is-done {
+    background-color: aquamarine;
+  }
+}

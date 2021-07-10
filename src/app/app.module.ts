@@ -28,6 +28,7 @@ import { HistoryComponent } from './pages/home-page/history/history.component';
 import { TestPageComponent } from './pages/settings/test-page/test-page.component';
 import { DatePipe } from '@angular/common';
 import { AboutComponent } from './pages/about/about.component';
+import { TimersComponent } from './pages/timers/timers.component';
 
 const local = window.navigator.language;
 
@@ -44,6 +45,7 @@ const local = window.navigator.language;
     HistoryComponent,
     TestPageComponent,
     AboutComponent,
+    TimersComponent,
   ],
   imports: [
     MatNativeDateModule,
