@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AppErrorsService } from './services/app-errors.service';
-import {TasksService} from "./services/tasks.service";
+import { TasksService } from './services/tasks.service';
 
 @Component({
   selector: 'app-root',
@@ -17,11 +17,12 @@ export class AppComponent {
       this.errors = errors;
     });
   }
+
   clearErrors() {
     this.errorService.clearErrors();
   }
 
-  export(){
+  export() {
     this.tasksService.exportStateToJSON();
   }
 }
