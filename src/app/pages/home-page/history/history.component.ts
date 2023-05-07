@@ -9,9 +9,9 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./history.component.scss'],
 })
 export class HistoryComponent implements OnDestroy {
-  private readonly unsubscribe$ = new Subject<void>();
-
   historyRecords: HistoryRecord[] = [];
+
+  private readonly unsubscribe$ = new Subject<void>();
 
   constructor(private tasksService: TasksService) {
     this.tasksIsChangedSubscribe();

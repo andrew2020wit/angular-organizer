@@ -1,14 +1,13 @@
-<div class="history-component">
-  <button
-    mat-button
-    color="warn"
-    (click)="clearHistory()"
-    [disabled]="!historyRecords.length">
-    clearHistory
-  </button>
-  <ul *ngIf="historyRecords.length">
-    <li *ngFor="let record of historyRecords">
-      {{ record.date | date : 'dd-MM-yyyy' }}: {{ record.message }}
-    </li>
-  </ul>
-</div>
+<button
+  mat-button
+  color="warn"
+  (click)="clearHistory()"
+  [disabled]="!historyRecords.length">
+  clearHistory
+</button>
+
+<ul *ngIf="historyRecords.length">
+  <li *ngFor="let record of historyRecords">
+    {{ record.date | date : 'dd-MM-yyyy' }}: {{ record.message }}
+  </li>
+</ul>
