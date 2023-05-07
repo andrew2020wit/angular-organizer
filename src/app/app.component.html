@@ -30,19 +30,21 @@
       </div>
     </mat-toolbar>
   </div>
-  <div class='middle'>
-    <div class='main'>
-      <div class='errors' *ngIf='errors.length'>
-        <ol>
-          <li *ngFor='let error of errors'>{{ error }}</li>
-        </ol>
-        <div class='errors-clear-button'>
-          <button mat-button color='warn' (click)='clearErrors()'>ClearErrors</button>
-        </div>
+
+  <div class='main'>
+    <div class='errors' *ngIf='errors.length'>
+      <ol>
+        <li *ngFor='let error of errors'>{{ error }}</li>
+      </ol>
+
+      <div class='errors-clear-button'>
+        <button mat-button color='warn' (click)='clearErrors()'>ClearErrors</button>
       </div>
-      <router-outlet></router-outlet>
     </div>
+
+    <router-outlet></router-outlet>
   </div>
+
   <div class='footer'>
     <mat-toolbar>
       <div class='footer-line'>
@@ -50,7 +52,6 @@
           About
         </a>
       </div>
-    </mat-toolbar
-    >
+    </mat-toolbar>
   </div>
 </div>
