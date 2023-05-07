@@ -1,13 +1,13 @@
-.tasks-viewer {
+:host {
   display: flex;
+}
 
-  .tasks-column {
-    display: flex;
-    flex-direction: column;
-    margin: 0.5rem;
-  }
+.tasks-column {
+  display: flex;
+  flex-direction: column;
+  margin: 4px;
+}
 
-  .column-header {
-    text-align: center;
-  }
+.column-header {
+  text-align: center;
 }

@@ -1,6 +1,6 @@
 <mat-card
   appearance="outlined"
-  class="mat-elevation-z5"
+
   [ngClass]="{ 'high-priority': task.highPriority }">
   <div
     class="task-card"
@@ -12,6 +12,7 @@
       'current-task': delta > -1 && delta < 1
     }">
     <div class="title">{{ task.title }}</div>
+
     <div class="date">{{ taskDate | date : 'dd-MM-yyyy' }}</div>
   </div>
 </mat-card>

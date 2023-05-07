@@ -11,7 +11,6 @@ export class TaskCardComponent implements OnInit {
   @Input() task = new Task();
 
   delta = 0;
-
   taskDate = new Date();
 
   constructor(private router: Router) {}

@@ -18,12 +18,12 @@
   font-weight: bold;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card {
   border-radius: 0;
-  margin: 0.5rem;
+  margin: 4px;
+  padding: 4px;
 }
 
 .high-priority {
-  outline: red solid 4px;
+  outline: red solid 2px;
 }

@@ -1,16 +1,15 @@
-<div class="tasks-viewer">
-  <div
-    class="tasks-column"
-    *ngFor="let column of columnSetting">
-    <div class="column-header">
-      {{ column.title }}
-    </div>
-    <ng-container *ngIf="column.tasks?.length">
-      <div
-        class="task-div"
-        *ngFor="let task of column.tasks">
-        <app-task-card [task]="task"></app-task-card>
-      </div>
-    </ng-container>
+<div
+  class="tasks-column"
+  *ngFor="let column of columnSetting">
+  <div class="column-header">
+    {{ column.title }}
   </div>
+
+  <ng-container *ngIf="column.tasks?.length">
+    <div
+      class="task-div"
+      *ngFor="let task of column.tasks">
+      <app-task-card [task]="task"></app-task-card>
+    </div>
+  </ng-container>
 </div>
