@@ -48,7 +48,6 @@ class TasksState {
   tasks: Task[] = [];
   columnSettings: ColumnSetting[] = [{ title: 'main', tags: '' }];
   history: HistoryRecord[] = [];
-  priorities: string[] = [];
 }
 
 @Injectable({
@@ -203,15 +202,6 @@ export class TasksService {
     return tagsString.split(' ');
   }
 
-  setPriorities(priorities: string[]) {
-    this.tasksState.priorities = priorities;
-    this.tasksStateIsChanged$.next(true);
-  }
-
-  getPriorities() {
-    return this.tasksState.priorities;
-  }
-
   clearHistory() {
     this.tasksState.history = [];
     this.tasksStateIsChanged$.next(true);
@@ -238,14 +228,7 @@ export class TasksService {
       { title: 'column2', tags: 'tag1 tag2' },
       { title: 'column3', tags: 'tag3 tag4' },
     ];
-    newState.priorities = [
-      'priority1',
-      'priority2',
-      'priority3',
-      'priority4',
-      'priority5',
-      'priority6',
-    ];
+
     const tasks = newState.tasks;
 
     newState.currentIdCount = 10000;

@@ -1,46 +1,46 @@
-  <mat-form-field
-    class="new-priority-title"
-    appearance="outline">
-    <mat-label>New priority</mat-label>
+<mat-form-field
+  class="new-priority-title"
+  appearance="outline">
+  <mat-label>New priority</mat-label>
 
-    <input
-      matInput
-      name="NewPriority"
-      [(ngModel)]="newPriority"
-      (keyup.enter)="addPriority()" />
-  </mat-form-field>
+  <input
+    matInput
+    name="NewPriority"
+    [(ngModel)]="newPriority"
+    (keyup.enter)="addPriority()" />
+</mat-form-field>
 
-  <button
-    class="add-button"
-    mat-button
-    color="primary"
-    (click)="addPriority()"
-    [disabled]="!newPriority">
-    Add priority
-  </button>
+<button
+  class="add-button"
+  mat-button
+  color="primary"
+  (click)="addPriority()"
+  [disabled]="!newPriority">
+  Add priority
+</button>
 
+<div
+  cdkDropList
+  class="priority-list"
+  (cdkDropListDropped)="drop($event)"
+  *ngIf="priorities.length">
   <div
-    cdkDropList
-    class="priority-list"
-    (cdkDropListDropped)="drop($event)"
-    *ngIf="priorities.length">
-    <div
-      class="priority-item"
-      *ngFor="let priority of priorities; let index = index"
-      cdkDrag>
-      <div class="priority-content">
-        <div class="priority-title">
-          {{ priority }}
-        </div>
+    class="priority-item"
+    *ngFor="let priority of priorities; let index = index"
+    cdkDrag>
+    <div class="priority-content">
+      <div class="priority-title">
+        {{ priority }}
+      </div>
 
-        <div class="delete-button">
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="deletePriority(index)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
+      <div class="delete-button">
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="deletePriority(index)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
     </div>
   </div>
+</div>
