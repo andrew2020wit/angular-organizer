@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TasksService, TimerItem } from '../../services/tasks.service';
+import { TimerItem } from '../../services/timers/timer-item.model';
+import { TimersService } from '../../services/timers/timers.service';
 
 @Component({
   selector: 'app-timers',
@@ -9,10 +10,10 @@ import { TasksService, TimerItem } from '../../services/tasks.service';
 export class TimersComponent implements OnInit {
   timers: TimerItem[] = [];
 
-  constructor(private tasksService: TasksService) {}
+  constructor(private timersService: TimersService) {}
 
   ngOnInit(): void {
-    this.timers = this.tasksService.getTimers();
+    this.timers = this.timersService.getTimers();
   }
 
   addTimer() {
@@ -20,7 +21,7 @@ export class TimersComponent implements OnInit {
   }
 
   saveTimers() {
-    this.tasksService.saveTimers();
+    this.timersService.saveTimers();
   }
 
   switchTimer(timer: TimerItem) {
