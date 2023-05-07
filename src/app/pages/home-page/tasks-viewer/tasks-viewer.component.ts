@@ -17,9 +17,7 @@ export class TasksViewerComponent implements OnInit, OnDestroy {
     this.tasksIsChangedSubscribe();
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
@@ -39,7 +37,7 @@ export class TasksViewerComponent implements OnInit, OnDestroy {
 
   prepareTasks(tasks: Task[]) {
     this.columnSetting = this.tasksService.getColumnSetting();
-    this.columnSetting.forEach(x => x.tasks = []);
+    this.columnSetting.forEach((x) => (x.tasks = []));
     tasks.forEach((task) => {
       let taskAttached = false;
       const taskTags = this.tasksService.getTagArray(task.tags);
@@ -56,7 +54,7 @@ export class TasksViewerComponent implements OnInit, OnDestroy {
           taskAttached = true;
         }
       });
-      if (!taskAttached){
+      if (!taskAttached) {
         this.columnSetting[0].tasks?.push(task);
       }
     });

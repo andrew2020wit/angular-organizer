@@ -8,9 +8,8 @@ describe('ColumnSettingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ColumnSettingComponent ]
-    })
-    .compileComponents();
+      declarations: [ColumnSettingComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

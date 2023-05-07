@@ -207,16 +207,20 @@ export class TasksService {
     this.tasksState.priorities = priorities;
     this.tasksStateIsChanged$.next(true);
   }
+
   getPriorities() {
     return this.tasksState.priorities;
   }
+
   clearHistory() {
     this.tasksState.history = [];
     this.tasksStateIsChanged$.next(true);
   }
+
   getHistory() {
     return this.tasksState.history;
   }
+
   addHistory(record: HistoryRecord) {
     this.tasksState.history.push(record);
     this.tasksStateIsChanged$.next(true);

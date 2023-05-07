@@ -32,6 +32,7 @@ export class HistoryComponent implements OnDestroy {
         this.historyRecords = this.tasksService.getHistory();
       });
   }
+
   clearHistory() {
     this.tasksService.clearHistory();
   }

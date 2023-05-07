@@ -8,9 +8,8 @@ describe('TasdCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TaskCardComponent ]
-    })
-    .compileComponents();
+      declarations: [TaskCardComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

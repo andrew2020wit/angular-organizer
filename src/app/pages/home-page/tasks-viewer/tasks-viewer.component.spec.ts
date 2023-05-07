@@ -8,9 +8,8 @@ describe('TasksViewerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TasksViewerComponent ]
-    })
-    .compileComponents();
+      declarations: [TasksViewerComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

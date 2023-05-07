@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TasksService, TimerItem } from '../../services/tasks.service';
 
 @Component({
@@ -18,9 +18,11 @@ export class TimersComponent implements OnInit {
   addTimer() {
     this.timers.push(new TimerItem());
   }
+
   saveTimers() {
     this.tasksService.saveTimers();
   }
+
   startStopTimer(timer: TimerItem) {
     if (timer.isRun) {
       timer.restOfSecond = timer.countOfMinute * 60;

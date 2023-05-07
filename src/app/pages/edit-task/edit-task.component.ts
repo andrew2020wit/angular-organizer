@@ -49,6 +49,7 @@ export class EditTaskComponent implements OnInit {
     this.taskService.editTask(this.task);
     this.router.navigate(['']);
   }
+
   deleteTask() {
     this.taskService.deleteTask(this.task);
     this.router.navigate(['']);
@@ -60,6 +61,7 @@ export class EditTaskComponent implements OnInit {
       this.task.periodTimestamp = 0;
     }
   }
+
   nextRound() {
     if (!this.task.periodTimestamp) {
       return;
