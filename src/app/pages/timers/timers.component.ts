@@ -23,7 +23,7 @@ export class TimersComponent implements OnInit {
     this.tasksService.saveTimers();
   }
 
-  startStopTimer(timer: TimerItem) {
+  switchTimer(timer: TimerItem) {
     if (timer.isRun) {
       timer.restOfSecond = timer.countOfMinute * 60;
     }
@@ -35,7 +35,7 @@ export class TimersComponent implements OnInit {
     this.timers.splice(index, 1);
   }
 
-  getMinute(seconds: number) {
+  getMinutes(seconds: number) {
     return Math.floor(seconds / 60);
   }
 }
