@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TasksService } from '../../../services/tasks.service';
 import { PrioritiesService } from '../../../services/priorities.service';
+import { HistoryService } from '../../../services/history/history.service';
 
 @Component({
   selector: 'app-priorities',
@@ -12,7 +13,11 @@ export class PrioritiesComponent implements OnInit {
   protected priorities: string[] = [];
   protected newPriority = '';
 
-  constructor(private tasksService: TasksService, private prioritiesService: PrioritiesService) {}
+  constructor(
+    private tasksService: TasksService,
+    private historyService: HistoryService,
+    private prioritiesService: PrioritiesService,
+  ) {}
 
   ngOnInit() {
     this.priorities = this.prioritiesService.priorities;
@@ -33,6 +38,6 @@ export class PrioritiesComponent implements OnInit {
     const title = this.priorities[index];
     this.priorities.splice(index, 1);
     this.prioritiesService.priorities = this.priorities;
-    this.tasksService.addHistory({ date: new Date(), message: `Priority "${title}" has deleted` });
+    this.historyService.addHistory({ date: new Date(), message: `Priority "${title}" has deleted` });
   }
 }

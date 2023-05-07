@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AppErrorsService } from './app-errors.service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { HistoryService } from './history/history.service';
 
 const localStorageTaskKey = 'localStorageTaskStateKey';
 const localStorageTimersKey = 'localStorageTimersKey';
@@ -37,17 +38,11 @@ export class ColumnSetting {
   tasks?: Task[];
 }
 
-export class HistoryRecord {
-  date = new Date();
-  message = '';
-}
-
 class TasksState {
   stateVersion = 1;
   currentIdCount = 1;
   tasks: Task[] = [];
   columnSettings: ColumnSetting[] = [{ title: 'main', tags: '' }];
-  history: HistoryRecord[] = [];
 }
 
 @Injectable({
@@ -61,6 +56,7 @@ export class TasksService {
 
   constructor(
     private appErrorsService: AppErrorsService,
+    private historyService: HistoryService,
     private router: Router,
     private datePipe: DatePipe,
   ) {
@@ -165,7 +161,10 @@ export class TasksService {
     } else {
       this.tasksState.tasks.splice(index, 1);
       this.tasksStateIsChanged$.next(true);
-      this.addHistory({ date: new Date(), message: `Task "${task.title}" has deleted` });
+      this.historyService.addHistory({
+        date: new Date(),
+        message: `Task "${task.title}" has deleted`,
+      });
     }
   }
 
@@ -200,20 +199,6 @@ export class TasksService {
   getTagArray(tagsString: string): string[] {
     tagsString.replace(/\s/g, ' ');
     return tagsString.split(' ');
-  }
-
-  clearHistory() {
-    this.tasksState.history = [];
-    this.tasksStateIsChanged$.next(true);
-  }
-
-  getHistory() {
-    return this.tasksState.history;
-  }
-
-  addHistory(record: HistoryRecord) {
-    this.tasksState.history.push(record);
-    this.tasksStateIsChanged$.next(true);
   }
 
   deleteAll() {
