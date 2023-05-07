@@ -1,17 +1,25 @@
-.priority-component {
+:host {
   display: flex;
   flex-direction: column;
   margin: 0.5rem;
 }
 
+.new-priority-title {
+  margin-top: 12px;
+}
+
+.add-button {
+  margin-bottom: 8px;
+  margin-top: -12px;
+}
+
 .priority-list {
   max-width: 100%;
-  border: solid 1px #ccc;
   display: block;
-  background: white;
 }
 
 .priority-item {
+  margin: 4px;
   padding: 0.5rem;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
@@ -75,8 +83,4 @@
 
 .mat-mdc-icon-button {
   height: unset;
-}
-
-.add-button {
-  margin: 1rem;
 }

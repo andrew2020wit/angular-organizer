@@ -1,19 +1,22 @@
-<div class="priority-component">
-  <mat-form-field class="new-priority-title">
+  <mat-form-field
+    class="new-priority-title"
+    appearance="outline">
     <mat-label>New priority</mat-label>
+
     <input
       matInput
       name="NewPriority"
       [(ngModel)]="newPriority"
       (keyup.enter)="addPriority()" />
   </mat-form-field>
+
   <button
     class="add-button"
     mat-button
     color="primary"
     (click)="addPriority()"
     [disabled]="!newPriority">
-    Add
+    Add priority
   </button>
 
   <div
@@ -29,6 +32,7 @@
         <div class="priority-title">
           {{ priority }}
         </div>
+
         <div class="delete-button">
           <button
             mat-icon-button
@@ -40,4 +44,3 @@
       </div>
     </div>
   </div>
-</div>
