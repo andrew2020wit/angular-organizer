@@ -52,23 +52,6 @@
   </div>
 
   <div class="main">
-    <div
-      class="errors"
-      *ngIf="errors.length">
-      <ol>
-        <li *ngFor="let error of errors">{{ error }}</li>
-      </ol>
-
-      <div class="errors-clear-button">
-        <button
-          mat-button
-          color="warn"
-          (click)="clearErrors()">
-          ClearErrors
-        </button>
-      </div>
-    </div>
-
     <router-outlet></router-outlet>
   </div>
 

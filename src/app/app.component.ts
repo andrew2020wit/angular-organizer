@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AppErrorsService } from './services/app-errors.service';
 import { TasksService } from './services/tasks.service';
 import { LocalStorageService } from './services/local-storage.service';
 
@@ -14,19 +13,10 @@ export class AppComponent {
   errors: string[] = [];
 
   constructor(
-    private errorService: AppErrorsService,
     private tasksService: TasksService,
     private localStorageService: LocalStorageService,
   ) {
     this.localStorageService.load();
-
-    this.errorService.appErrors$.subscribe((errors) => {
-      this.errors = errors;
-    });
-  }
-
-  clearErrors() {
-    this.errorService.clearErrors();
   }
 
   export() {

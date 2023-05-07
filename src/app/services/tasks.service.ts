@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AppErrorsService } from './app-errors.service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { HistoryService } from './history/history.service';
@@ -55,7 +54,6 @@ export class TasksService {
   private timers: TimerItem[] = [];
 
   constructor(
-    private appErrorsService: AppErrorsService,
     private historyService: HistoryService,
     private router: Router,
     private datePipe: DatePipe,
@@ -155,17 +153,14 @@ export class TasksService {
     const index = this.tasksState.tasks.findIndex((item) => {
       return item.id === task.id;
     });
-    if (index === -1) {
-      this.appErrorsService.newError('TasksService: task was not fined');
-      console.error('TasksService: task was not fined', task);
-    } else {
-      this.tasksState.tasks.splice(index, 1);
-      this.tasksStateIsChanged$.next(true);
-      this.historyService.addHistory({
-        date: new Date(),
-        message: `Task "${task.title}" has deleted`,
-      });
-    }
+
+    this.tasksState.tasks.splice(index, 1);
+    this.tasksStateIsChanged$.next(true);
+
+    this.historyService.addHistory({
+      date: new Date(),
+      message: `Task "${task.title}" has deleted`,
+    });
   }
 
   getTaskByID(id: number) {
