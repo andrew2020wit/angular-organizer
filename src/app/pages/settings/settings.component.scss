@@ -2,3 +2,7 @@
   max-width: 800px;
   margin: auto;
 }
+
+:host::ng-deep .mat-mdc-tab-body-content {
+  overflow: hidden;
+}

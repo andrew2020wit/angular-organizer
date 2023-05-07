@@ -1,3 +1,9 @@
+:host {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
 mat-form-field {
   margin: 0.2rem;
 }
