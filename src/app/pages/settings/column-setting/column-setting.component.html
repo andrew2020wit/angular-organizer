@@ -1,28 +1,46 @@
-<div class='column-setting-container'>
-  <div class='column-setting' *ngFor='let columnSetting of columnSettings; let index = index'>
-    <mat-form-field class='column-title'>
+<div class="column-setting-container">
+  <div
+    class="column-setting"
+    *ngFor="let columnSetting of columnSettings; let index = index">
+    <mat-form-field class="column-title">
       <mat-label>column-title</mat-label>
-      <input matInput name='column-title' [(ngModel)]='columnSetting.title' />
+      <input
+        matInput
+        name="column-title"
+        [(ngModel)]="columnSetting.title" />
     </mat-form-field>
-    <mat-form-field class='column-tags' *ngIf='index'>
+    <mat-form-field
+      class="column-tags"
+      *ngIf="index">
       <mat-label>column-tags</mat-label>
       <input
         matInput
-        name='column-tags'
-        placeholder='tag1 tag2 tag3'
-        [(ngModel)]='columnSetting.tags'
-      />
+        name="column-tags"
+        placeholder="tag1 tag2 tag3"
+        [(ngModel)]="columnSetting.tags" />
     </mat-form-field>
-    <button class='remove-column-button' *ngIf='index' mat-button color='warn' (click)='removeColumn(index)'>
+    <button
+      class="remove-column-button"
+      *ngIf="index"
+      mat-button
+      color="warn"
+      (click)="removeColumn(index)">
       remove-column-button
     </button>
-
   </div>
-  <div class='bottom-toolbar'>
-    <button class='add-new-column' mat-button color='primary' (click)='addNewColumn()'>
+  <div class="bottom-toolbar">
+    <button
+      class="add-new-column"
+      mat-button
+      color="primary"
+      (click)="addNewColumn()">
       add-new-column
     </button>
-    <button class='save-button' mat-button color='primary' (click)='saveSettings()'>
+    <button
+      class="save-button"
+      mat-button
+      color="primary"
+      (click)="saveSettings()">
       saveSettings
     </button>
   </div>

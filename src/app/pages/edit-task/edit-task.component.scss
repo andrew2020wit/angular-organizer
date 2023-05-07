@@ -1,6 +1,8 @@
-.new-task-container {
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   max-width: 800px;
-  margin: auto;
   background-color: antiquewhite;
   padding: 1rem;
 

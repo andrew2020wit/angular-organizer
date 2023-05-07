@@ -1,54 +1,84 @@
-<div class='root'>
-  <div class='header'>
+<div class="root">
+  <div class="header">
     <mat-toolbar>
-      <div class='header-line'>
-        <div class='title head-menu-item'>Angular Organizer v1.3</div>
+      <div class="header-line">
+        <div class="title head-menu-item">Angular Organizer v1.3</div>
 
-        <div class='head-menu'>
-          <div class='head-menu-item'>
-            <a routerLink='/' routerLinkActive='active' [routerLinkActiveOptions]='{ exact: true }'>
+        <div class="head-menu">
+          <div class="head-menu-item">
+            <a
+              routerLink="/"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }">
               Tasks
             </a>
           </div>
 
-          <div class='head-menu-item'>
-            <a routerLink='/edit-task' routerLinkActive='active'>Add new task</a>
+          <div class="head-menu-item">
+            <a
+              routerLink="/edit-task"
+              routerLinkActive="active"
+              >Add new task</a
+            >
           </div>
 
-          <div class='head-menu-item'>
-            <a routerLink='/timers' routerLinkActive='active'>Timers</a>
+          <div class="head-menu-item">
+            <a
+              routerLink="/timers"
+              routerLinkActive="active"
+              >Timers</a
+            >
           </div>
 
-          <div class='head-menu-item'>
-            <a routerLink='/settings' routerLinkActive='active'> Settings</a>
+          <div class="head-menu-item">
+            <a
+              routerLink="/settings"
+              routerLinkActive="active">
+              Settings</a
+            >
           </div>
 
-          <div class='head-menu-item'>
-            <button mat-button color='primary' (click)='export()'>ExportToJSON</button>
+          <div class="head-menu-item">
+            <button
+              mat-button
+              color="primary"
+              (click)="export()">
+              ExportToJSON
+            </button>
           </div>
         </div>
       </div>
     </mat-toolbar>
   </div>
 
-  <div class='main'>
-    <div class='errors' *ngIf='errors.length'>
+  <div class="main">
+    <div
+      class="errors"
+      *ngIf="errors.length">
       <ol>
-        <li *ngFor='let error of errors'>{{ error }}</li>
+        <li *ngFor="let error of errors">{{ error }}</li>
       </ol>
 
-      <div class='errors-clear-button'>
-        <button mat-button color='warn' (click)='clearErrors()'>ClearErrors</button>
+      <div class="errors-clear-button">
+        <button
+          mat-button
+          color="warn"
+          (click)="clearErrors()">
+          ClearErrors
+        </button>
       </div>
     </div>
 
     <router-outlet></router-outlet>
   </div>
 
-  <div class='footer'>
+  <div class="footer">
     <mat-toolbar>
-      <div class='footer-line'>
-        <a routerLink='/about' routerLinkActive='active' [routerLinkActiveOptions]='{ exact: true }'>
+      <div class="footer-line">
+        <a
+          routerLink="/about"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
           About
         </a>
       </div>
