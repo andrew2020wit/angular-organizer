@@ -15,7 +15,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatLegacyOptionModule as MatOptionModule } from '@angular/material/legacy-core';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TaskCardComponent } from './pages/home-page/tasks-viewer/tasd-card/task-card.component';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
@@ -30,6 +29,7 @@ import { TestPageComponent } from './pages/settings/test-page/test-page.componen
 import { DatePipe } from '@angular/common';
 import { AboutComponent } from './pages/about/about.component';
 import { TimersComponent } from './pages/timers/timers.component';
+import { MatButtonModule } from '@angular/material/button';
 
 const local = window.navigator.language;
 
