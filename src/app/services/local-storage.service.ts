@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PrioritiesService } from './priorities.service';
+import { PrioritiesService } from './priorities/priorities.service';
 import { HistoryService } from './history/history.service';
 
 @Injectable({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TasksService } from '../../../services/tasks.service';
-import { PrioritiesService } from '../../../services/priorities.service';
+import { PrioritiesService } from '../../../services/priorities/priorities.service';
 import { HistoryService } from '../../../services/history/history.service';
 
 @Component({
