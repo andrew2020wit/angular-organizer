@@ -47,7 +47,7 @@ Column has:
 * tags
 
 So tasks are separate into columns:
-* each column contain tasks with the same tags
+* each column contain tasks with the same tags (at least one)
 * special column contain not matched tasks
 
 ## Test data
