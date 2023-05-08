@@ -145,10 +145,7 @@ export class TasksService {
   }
 
   getTaskByID(id: number) {
-    const task = this.tasks.find((item) => {
-      return item.id === id;
-    });
-    return task;
+    return this.tasks.find((item) => item.id === id);
   }
 
   public editTask(task: AppTask) {
