@@ -26,6 +26,7 @@ export class EditTaskComponent implements OnInit {
 
   getCurrentTask() {
     const snapshotId = this.activateRoute.snapshot.params['id'];
+
     if (snapshotId) {
       this.task.id = +snapshotId;
       const task = this.taskService.getTaskByID(+snapshotId);

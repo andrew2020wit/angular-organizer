@@ -7,6 +7,7 @@ import { AppTask } from './task.model';
 import { ColumnSetting } from './column-setting.model';
 import { ComputedTasks } from './computed-tasks.model';
 import { computeTestTasks, testColumnsSettings } from './test-data';
+import { sortObjectByNumberField } from '../../share/utils/sort-object-by-number-field';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class TasksService {
   ) {
     this.loadColumnSettingFromLocalStorage();
     this.loadTasksFromLocalStorage();
-    this.computeTasks();
+    this.computeTasks(false);
   }
 
   getColumnSetting() {
@@ -72,7 +73,7 @@ export class TasksService {
     localStorage.setItem(this.localStorageTaskKey, JSON.stringify(this.tasks));
   }
 
-  computeTasks() {
+  computeTasks(save = true) {
     const computedTasksColumns: ComputedTasks[] = [];
     let allColumnTags: string[] = [];
 
@@ -115,27 +116,34 @@ export class TasksService {
       }
     });
 
+    computedTasksColumns.forEach((column) => {
+      column.tasks.sort(sortObjectByNumberField('timestamp'));
+    });
+
     this.computedTasks$.next(computedTasksColumns);
+
+    if (save) {
+      this.saveTasks();
+    }
   }
 
-  public getTasks() {
-    const tasks = [...this.tasks];
-    tasks.sort((a, b) => {
-      return a.timestamp - b.timestamp;
-    });
-    return tasks;
-  }
+  // public getTasks() {
+  //   const tasks = [...this.tasks];
+  //   tasks.sort((a, b) => {
+  //     return a.timestamp - b.timestamp;
+  //   });
+  //   return tasks;
+  // }
 
   private insertTask(task: AppTask) {
-    const index = this.tasks.findIndex((item) => {
-      return item.id === task.id;
-    });
+    const index = this.tasks.findIndex((item) => item.id === task.id);
+
     if (index === -1) {
       this.tasks.push(task);
-      // this.tasksStateIsChanged$.next(true);
+      this.computeTasks();
     } else {
       this.tasks.splice(index, 1, task);
-      // this.tasksStateIsChanged$.next(true);
+      this.computeTasks();
     }
   }
 
@@ -145,7 +153,7 @@ export class TasksService {
     });
 
     this.tasks.splice(index, 1);
-    // this.tasksStateIsChanged$.next(true);
+    this.computeTasks();
 
     this.historyService.addHistory({
       date: new Date(),
