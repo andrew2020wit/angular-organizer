@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ColumnSetting, TasksService } from '../../../services/tasks.service';
+import { ColumnSetting, TasksService } from '../../../services/tasks/tasks.service';
 
 @Component({
   selector: 'app-column-setting',

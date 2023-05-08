@@ -2,27 +2,15 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { HistoryService } from './history/history.service';
+import { HistoryService } from '../history/history.service';
+import {Task} from  './task.model';
 
 const localStorageTaskKey = 'localStorageTaskStateKey';
-
 
 interface ExportImportObject {
   version: number;
   tasks: TasksState;
 }
-
-export class Task {
-  id = 0;
-  title = '';
-  description = '';
-  timestamp = Date.now();
-  periodTimestamp = 0;
-  tags = '';
-  highPriority = false;
-}
-
-
 
 export class ColumnSetting {
   title = '';
@@ -45,7 +33,6 @@ export class TasksService {
 
   private tasksState = new TasksState();
 
-
   constructor(
     private historyService: HistoryService,
     private router: Router,
@@ -58,16 +45,7 @@ export class TasksService {
       }
       this.saveTaskStateToLocalStorage();
     });
-
   }
-
-
-
-
-
-
-
-
 
   private loadTasksFromLocalStorage() {
     const tasksStateString = localStorage.getItem(localStorageTaskKey);
@@ -81,8 +59,6 @@ export class TasksService {
       }
     }
   }
-
-
 
   private saveTaskStateToLocalStorage() {
     localStorage.setItem(localStorageTaskKey, JSON.stringify(this.tasksState));
