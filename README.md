@@ -49,11 +49,16 @@ Column has:
 So tasks are separate into columns:
 * each column contain tasks with the same tags (at least one)
 * special column contain not matched tasks
+  
+Tasks are sorted by date, and highlighted accordingly to priority.
 
 ## Test data
 
 You can use generation of test data.
 
-Tasks are sorted by date, and highlighted accordingly to priority.
+## Export-import to/from JSON-file
+
+* You can export to json tasks and other data (all state).
+* There is import from json.
 
 MIT license.
