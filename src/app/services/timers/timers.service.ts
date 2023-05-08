@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TimerItem } from './timer-item.model';
 import { sortObjectByNumberField } from '../../share/utils/sort-object-by-number-field';
 import { BehaviorSubject } from 'rxjs';
+import { timerTestData } from './test-data';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +47,11 @@ export class TimersService {
 
   get() {
     return this.timers;
+  }
+
+  reSetTestData() {
+    this.timers = timerTestData;
+    this.setTimers();
   }
 
   private startTimer(timer: TimerItem) {

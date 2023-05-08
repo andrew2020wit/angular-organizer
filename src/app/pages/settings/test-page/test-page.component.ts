@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TasksService } from '../../../services/tasks/tasks.service';
 import { PrioritiesService } from '../../../services/priorities/priorities.service';
 import { HistoryService } from '../../../services/history/history.service';
+import { TimersService } from '../../../services/timers/timers.service';
 
 @Component({
   selector: 'app-test-page',
@@ -12,6 +13,7 @@ export class TestPageComponent implements OnInit {
   constructor(
     private prioritiesService: PrioritiesService,
     private historyService: HistoryService,
+    private timersService: TimersService,
     private tasksService: TasksService,
   ) {}
 
@@ -20,6 +22,7 @@ export class TestPageComponent implements OnInit {
   reSetTestData() {
     this.prioritiesService.reSetTestData();
     this.historyService.reSetTestData();
+    this.timersService.reSetTestData();
     window.location.reload();
   }
 
