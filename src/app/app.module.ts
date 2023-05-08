@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TasksViewerComponent } from './pages/home-page/tasks-viewer/tasks-viewer.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { EditTaskComponent } from './pages/edit-task/edit-task.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -29,6 +29,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+import { EditTimerDialogComponent } from './pages/timers/edit-timer-dialog/edit-timer-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const local = window.navigator.language;
 
@@ -46,6 +48,7 @@ const local = window.navigator.language;
     TestPageComponent,
     AboutComponent,
     TimersComponent,
+    EditTimerDialogComponent,
   ],
   imports: [
     MatNativeDateModule,
@@ -65,6 +68,8 @@ const local = window.navigator.language;
     MatTabsModule,
     DragDropModule,
     MatIconModule,
+    MatDialogModule,
+    ReactiveFormsModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: local }, DatePipe],
   bootstrap: [AppComponent],

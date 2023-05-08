@@ -1,0 +1,46 @@
+<form [formGroup]="formGroup">
+  <mat-form-field appearance="outline">
+    <mat-label>Label</mat-label>
+
+    <input
+      matInput
+      formControlName="label" />
+
+    <mat-error *ngIf="formGroup.get('label')?.invalid">Is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Order</mat-label>
+    <input
+      matInput
+      formControlName="order" />
+
+    <mat-error *ngIf="formGroup.get('order')?.invalid">Must be number, required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Minutes</mat-label>
+
+    <input
+      matInput
+      formControlName="minutes" />
+
+    <mat-error *ngIf="formGroup.get('minutes')?.invalid">Must be number, required</mat-error>
+  </mat-form-field>
+</form>
+
+<div class="actions">
+  <button
+    mat-button
+    (click)="cansel()">
+    Cansel
+  </button>
+
+  <button
+    mat-button
+    color="primary"
+    [disabled]="formGroup.invalid"
+    (click)="save()">
+    {{ isNewTimer ? 'Create' : 'Save' }} timer
+  </button>
+</div>

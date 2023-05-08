@@ -1,0 +1,15 @@
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+mat-form-field {
+  margin-bottom: 8px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 16px;
+}

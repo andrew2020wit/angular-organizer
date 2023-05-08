@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TimerItem } from '../../services/timers/timer-item.model';
 import { TimersService } from '../../services/timers/timers.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EditTimerDialogComponent } from './edit-timer-dialog/edit-timer-dialog.component';
 
 @Component({
   selector: 'app-timers',
@@ -10,31 +12,28 @@ import { TimersService } from '../../services/timers/timers.service';
 export class TimersComponent implements OnInit {
   timers: TimerItem[] = [];
 
-  constructor(private timersService: TimersService) {}
+  constructor(private timersService: TimersService, public timerDialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.timers = this.timersService.getTimers();
+    this.timers = this.timersService.get();
   }
 
   addTimer() {
-    this.timers.push(new TimerItem());
+    this.timerDialog
+      .open(EditTimerDialogComponent, {
+        data: null,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        console.log('The dialog was closed', result);
+      });
   }
 
-  saveTimers() {
-    this.timersService.saveTimers();
-  }
+  saveTimers() {}
 
-  switchTimer(timer: TimerItem) {
-    if (timer.isRun) {
-      timer.restOfSecond = timer.countOfMinute * 60;
-    }
-    timer.isRun = !timer.isRun;
-    timer.isDone = false;
-  }
+  switchTimer(timer: TimerItem) {}
 
-  deleteTimer(index: number) {
-    this.timers.splice(index, 1);
-  }
+  deleteTimer(index: number) {}
 
   getMinutes(seconds: number) {
     return Math.floor(seconds / 60);

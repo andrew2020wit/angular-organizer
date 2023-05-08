@@ -8,20 +8,13 @@
       (click)="addTimer()">
       Add Timer
     </button>
-
-    <button
-      mat-button
-      color="primary"
-      (click)="saveTimers()">
-      Save timers
-    </button>
   </div>
 
   <div class="timers-list">
     <div
       class="timer"
       *ngFor="let timer of timers; let index = index"
-      [ngClass]="{ 'timer-is-done': timer.isDone }">
+     >
       <mat-form-field
         class="timer-label-form"
         appearance="outline">
@@ -39,14 +32,14 @@
 
         <input
           matInput
-          [(ngModel)]="timer.countOfMinute" />
+          [(ngModel)]="timer.minutes" />
       </mat-form-field>
 
       <button
         mat-button
         color="primary"
         (click)="switchTimer(timer)">
-        {{ timer.isRun ? 'Stop' : 'Start' }}
+        {{ 'Stop' + 'Start' }}
       </button>
 
       <button
@@ -56,9 +49,9 @@
         Delete
       </button>
 
-      <div class="minute">{{ getMinutes(timer.restOfSecond) }} m</div>
+      <div class="minute"> m</div>
 
-      <div class="seconds">{{ timer.restOfSecond % 60 }} s</div>
+      <div class="seconds"> s</div>
     </div>
   </div>
 </div>

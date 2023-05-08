@@ -1,7 +1,15 @@
 export class TimerItem {
-  label = '';
-  countOfMinute = 0;
-  isRun = false;
-  isDone = false;
-  restOfSecond = 0;
+  id: number;
+  label: string;
+  minutes: number;
+  order: number;
+  startTimeStamp? :number;
+  endTimeStamp?: number;
+
+  constructor(id: number, label: string, minutes: number, order: number) {
+    this.id = id;
+    this.label = label;
+    this.minutes = minutes;
+    this.order = order;
+  }
 }
