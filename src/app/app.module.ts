@@ -31,6 +31,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { EditTimerDialogComponent } from './pages/timers/edit-timer-dialog/edit-timer-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
 
 const local = window.navigator.language;
 
@@ -70,6 +71,7 @@ const local = window.navigator.language;
     MatIconModule,
     MatDialogModule,
     ReactiveFormsModule,
+    MatTableModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: local }, DatePipe],
   bootstrap: [AppComponent],

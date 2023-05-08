@@ -15,7 +15,9 @@ export class TimersComponent implements OnInit, OnDestroy {
   // it's triggers change detection
   interval = setInterval(() => {}, 1000);
 
-  Date = Date;
+  protected readonly Date = Date;
+
+  displayedColumns: string[] = ['label', 'minutes', 'actions', 'time'];
 
   constructor(protected timersService: TimersService, public timerDialog: MatDialog) {}
 
@@ -72,4 +74,5 @@ export class TimersComponent implements OnInit, OnDestroy {
 
     return Math.floor(((timer.endTimeStamp - Date.now()) / 1000) % 60);
   }
+
 }
