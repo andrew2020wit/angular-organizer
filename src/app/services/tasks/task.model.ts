@@ -1,4 +1,4 @@
-export class Task {
+export class AppTask {
   id = 0;
   title = '';
   description = '';

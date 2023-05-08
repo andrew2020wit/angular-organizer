@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Task } from '../../../../services/tasks/tasks.service';
 import { Router } from '@angular/router';
+import { AppTask } from '../../../../services/tasks/task.model';
 
 @Component({
   selector: 'app-task-card',
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./task-card.component.scss'],
 })
 export class TaskCardComponent implements OnInit {
-  @Input() task = new Task();
+  @Input() task = new AppTask();
 
   delta = 0;
   taskDate = new Date();

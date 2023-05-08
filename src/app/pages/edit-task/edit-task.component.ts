@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Task, TasksService } from '../../services/tasks/tasks.service';
+import { TasksService } from '../../services/tasks/tasks.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AppTask } from '../../services/tasks/task.model';
 
 @Component({
   selector: 'app-edit-task',
@@ -8,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./edit-task.component.scss'],
 })
 export class EditTaskComponent implements OnInit {
-  task = new Task();
+  task = new AppTask();
 
   selectedDate = new Date();
   nextDate = new Date();

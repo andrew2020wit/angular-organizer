@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { HistoryService } from '../history/history.service';
-import {Task} from  './task.model';
+import {AppTask} from  './task.model';
 
 const localStorageTaskKey = 'localStorageTaskStateKey';
 
@@ -15,13 +15,13 @@ interface ExportImportObject {
 export class ColumnSetting {
   title = '';
   tags = '';
-  tasks?: Task[];
+  tasks?: AppTask[];
 }
 
 class TasksState {
   stateVersion = 1;
   currentIdCount = 1;
-  tasks: Task[] = [];
+  tasks: AppTask[] = [];
   columnSettings: ColumnSetting[] = [{ title: 'main', tags: '' }];
 }
 
@@ -72,7 +72,7 @@ export class TasksService {
     return tasks;
   }
 
-  private insertTask(task: Task) {
+  private insertTask(task: AppTask) {
     const index = this.tasksState.tasks.findIndex((item) => {
       return item.id === task.id;
     });
@@ -85,7 +85,7 @@ export class TasksService {
     }
   }
 
-  deleteTask(task: Task) {
+  deleteTask(task: AppTask) {
     const index = this.tasksState.tasks.findIndex((item) => {
       return item.id === task.id;
     });
@@ -106,7 +106,7 @@ export class TasksService {
     return task;
   }
 
-  public editTask(task: Task) {
+  public editTask(task: AppTask) {
     if (!task.id) {
       task.id = this.tasksState.currentIdCount;
       this.tasksState.currentIdCount++;
@@ -154,7 +154,7 @@ export class TasksService {
     currentTimeStamp -= 3600 * 24 * 5 * 1000;
 
     for (let i = 0; i < 20; i++) {
-      const newTask = new Task();
+      const newTask = new AppTask();
       newTask.id = i + 100;
       newTask.title = `task N${i} - tag1`;
       newTask.tags = 'tag1';
@@ -162,7 +162,7 @@ export class TasksService {
       newTask.timestamp = currentTimeStamp;
       tasks.push(newTask);
 
-      const newTask2 = new Task();
+      const newTask2 = new AppTask();
       newTask2.id = i + 200;
       newTask2.title = `task N${i}`;
       newTask2.tags = '';
@@ -170,7 +170,7 @@ export class TasksService {
       newTask2.timestamp = currentTimeStamp;
       tasks.push(newTask2);
 
-      const newTask3 = new Task();
+      const newTask3 = new AppTask();
       newTask3.id = i + 300;
       newTask3.title = `task N${i} - tag3`;
       newTask3.tags = 'tag3';
@@ -178,7 +178,7 @@ export class TasksService {
       newTask3.timestamp = currentTimeStamp;
       tasks.push(newTask3);
 
-      const newTask4 = new Task();
+      const newTask4 = new AppTask();
       newTask4.id = i + 400;
       newTask4.title = `task N${i} - tag7`;
       newTask4.tags = 'tag7';
@@ -186,7 +186,7 @@ export class TasksService {
       newTask4.timestamp = currentTimeStamp;
       tasks.push(newTask4);
 
-      const newTask5 = new Task();
+      const newTask5 = new AppTask();
       newTask5.id = i + 500;
       newTask5.title = `task N${i} - tag2`;
       newTask5.tags = 'tag2';

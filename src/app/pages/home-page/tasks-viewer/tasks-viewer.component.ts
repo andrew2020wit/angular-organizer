@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ColumnSetting, Task, TasksService } from '../../../services/tasks/tasks.service';
+import { ColumnSetting, TasksService } from '../../../services/tasks/tasks.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AppTask } from '../../../services/tasks/task.model';
 
 @Component({
   selector: 'app-tasks-viewer',
@@ -35,7 +36,7 @@ export class TasksViewerComponent implements OnInit, OnDestroy {
       });
   }
 
-  prepareTasks(tasks: Task[]) {
+  prepareTasks(tasks: AppTask[]) {
     this.columnSetting = this.tasksService.getColumnSetting();
     this.columnSetting.forEach((x) => (x.tasks = []));
     tasks.forEach((task) => {
