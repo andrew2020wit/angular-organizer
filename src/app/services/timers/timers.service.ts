@@ -25,14 +25,6 @@ export class TimersService {
     }
   }
 
-  private startTimer(timer: TimerItem) {
-    this.update({ ...timer, endTimeStamp: Date.now() + timer.minutes * 60000 });
-  }
-
-  private stopTimer(timer: TimerItem) {
-    this.update({ ...timer, endTimeStamp: undefined });
-  }
-
   add(newTimer: TimerItem) {
     this.timers.push(newTimer);
     this.timers.sort(sortObjectByNumberField('order'));
@@ -54,6 +46,14 @@ export class TimersService {
 
   get() {
     return this.timers;
+  }
+
+  private startTimer(timer: TimerItem) {
+    this.update({ ...timer, endTimeStamp: Date.now() + timer.minutes * 60000 });
+  }
+
+  private stopTimer(timer: TimerItem) {
+    this.update({ ...timer, endTimeStamp: undefined });
   }
 
   private setTimers(save = true) {
