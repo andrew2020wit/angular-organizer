@@ -20,7 +20,7 @@
       mat-button
       color="primary"
       (click)="switchTimer(timer)">
-      {{ 'Stop' + 'Start' }}
+      {{ timer.endTimeStamp && timer.endTimeStamp > Date.now() ? 'Stop' : 'Start' }}
     </button>
 
     <button
@@ -37,8 +37,9 @@
       Delete
     </button>
 
-    <div class="minute">m</div>
-
-    <div class="seconds">s</div>
+    <ng-container *ngIf="timer.endTimeStamp && timer.endTimeStamp > Date.now()">
+      <div class="minute">{{ getMinutes(timer) }} m</div>
+      <div class="seconds">{{ getSeconds(timer) }}s</div>
+    </ng-container>
   </div>
 </div>

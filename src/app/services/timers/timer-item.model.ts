@@ -3,7 +3,6 @@ export class TimerItem {
   label: string;
   minutes: number;
   order: number;
-  startTimeStamp? :number;
   endTimeStamp?: number;
 
   constructor(id: number, label: string, minutes: number, order: number) {

@@ -15,10 +15,23 @@ export class TimersService {
 
   constructor() {
     this.loadTimersFromLocalStorage();
-    this.runTimers();
   }
 
-  runTimers() {}
+  switch(timer: TimerItem) {
+    if (!timer.endTimeStamp || timer.endTimeStamp < Date.now()) {
+      this.startTimer(timer);
+    } else {
+      this.stopTimer(timer);
+    }
+  }
+
+  private startTimer(timer: TimerItem) {
+    this.update({ ...timer, endTimeStamp: Date.now() + timer.minutes * 60000 });
+  }
+
+  private stopTimer(timer: TimerItem) {
+    this.update({ ...timer, endTimeStamp: undefined });
+  }
 
   add(newTimer: TimerItem) {
     this.timers.push(newTimer);
