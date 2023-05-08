@@ -11,9 +11,19 @@ export class HistoryService {
   private history: HistoryRecord[] = [];
   private readonly historyKey = 'history';
 
-  constructor() {}
+  constructor() {
+    this.loadHistoryFromLocalStorage();
+  }
 
-  loadHistoryFromLocalStorage() {
+  clearHistory() {
+    this.setHistory([]);
+  }
+
+  addHistory(record: HistoryRecord) {
+    this.setHistory([...this.history, record]);
+  }
+
+  private loadHistoryFromLocalStorage() {
     const str = localStorage.getItem(this.historyKey);
 
     this.history = !str ? [] : JSON.parse(str);
@@ -23,14 +33,6 @@ export class HistoryService {
     }
 
     this.setHistory(this.history);
-  }
-
-  clearHistory() {
-    this.setHistory([]);
-  }
-
-  addHistory(record: HistoryRecord) {
-    this.setHistory([...this.history, record]);
   }
 
   private setHistory(history: HistoryRecord[]) {

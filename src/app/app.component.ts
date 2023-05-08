@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { TasksService } from './services/tasks.service';
-import { LocalStorageService } from './services/local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +11,7 @@ export class AppComponent {
 
   errors: string[] = [];
 
-  constructor(
-    private tasksService: TasksService,
-    private localStorageService: LocalStorageService,
-  ) {
-    this.localStorageService.load();
-  }
+  constructor(private tasksService: TasksService) {}
 
   export() {
     this.tasksService.exportStateToJSON();

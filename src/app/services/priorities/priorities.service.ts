@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class PrioritiesService {
   get priorities() {
     return this._priorities;
-  };
+  }
 
   set priorities(x: string[]) {
     this._priorities = x;
@@ -17,20 +17,11 @@ export class PrioritiesService {
 
   private readonly prioritiesKey = 'priorities';
 
-  constructor() {}
-
-  public loadPrioritiesFromLocalStorage() {
-
-    const str = localStorage.getItem(this.prioritiesKey);
-
-    this.priorities = !str ? [] : JSON.parse(str);
-
-    if ( !Array.isArray(this.priorities)) {
-      this.priorities = [];
-    }
+  constructor() {
+    this.loadPrioritiesFromLocalStorage();
   }
 
-  public initTestData(){
+  public initTestData() {
     this.priorities = [
       'priority1',
       'priority2',
@@ -41,8 +32,17 @@ export class PrioritiesService {
     ];
   }
 
+  private loadPrioritiesFromLocalStorage() {
+    const str = localStorage.getItem(this.prioritiesKey);
+
+    this.priorities = !str ? [] : JSON.parse(str);
+
+    if (!Array.isArray(this.priorities)) {
+      this.priorities = [];
+    }
+  }
+
   private savePrioritiesToLocalStorage() {
     localStorage.setItem(this.prioritiesKey, JSON.stringify(this._priorities));
   }
-
 }
