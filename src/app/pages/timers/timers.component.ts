@@ -12,6 +12,7 @@ import { EditTimerDialogComponent } from './edit-timer-dialog/edit-timer-dialog.
 export class TimersComponent implements OnInit, OnDestroy {
   timers: TimerItem[] = [];
 
+  // it's triggers change detection
   interval = setInterval(() => {}, 1000);
 
   Date = Date;
