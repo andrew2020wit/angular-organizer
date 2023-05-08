@@ -1,57 +1,44 @@
-<div class="app-timers">
-  <h1>Timers</h1>
+<h1>Timers</h1>
 
-  <div class="tool-panel">
+<div class="tool-panel">
+  <button
+    mat-button
+    color="primary"
+    (click)="addTimer()">
+    Add Timer
+  </button>
+</div>
+
+<div class="timers-list">
+  <div
+    class="timer"
+    *ngFor="let timer of timersService.timers$ | async; let index = index">
+    <div class="label">{{ timer.label }}:</div>
+    <div class="minutes">{{ timer.minutes }} minutes</div>
+
     <button
       mat-button
       color="primary"
-      (click)="addTimer()">
-      Add Timer
+      (click)="switchTimer(timer)">
+      {{ 'Stop' + 'Start' }}
     </button>
-  </div>
 
-  <div class="timers-list">
-    <div
-      class="timer"
-      *ngFor="let timer of timers; let index = index"
-     >
-      <mat-form-field
-        class="timer-label-form"
-        appearance="outline">
-        <mat-label>Label</mat-label>
+    <button
+      mat-button
+      color="primary"
+      (click)="updateTimer(timer)">
+      edit
+    </button>
 
-        <input
-          matInput
-          [(ngModel)]="timer.label" />
-      </mat-form-field>
+    <button
+      mat-button
+      color="warn"
+      (click)="delete(timer)">
+      Delete
+    </button>
 
-      <mat-form-field
-        class="timer-minute-form"
-        appearance="outline">
-        <mat-label>Minutes</mat-label>
+    <div class="minute">m</div>
 
-        <input
-          matInput
-          [(ngModel)]="timer.minutes" />
-      </mat-form-field>
-
-      <button
-        mat-button
-        color="primary"
-        (click)="switchTimer(timer)">
-        {{ 'Stop' + 'Start' }}
-      </button>
-
-      <button
-        mat-button
-        color="warn"
-        (click)="deleteTimer(index)">
-        Delete
-      </button>
-
-      <div class="minute"> m</div>
-
-      <div class="seconds"> s</div>
-    </div>
+    <div class="seconds">s</div>
   </div>
 </div>

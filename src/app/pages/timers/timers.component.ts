@@ -12,7 +12,7 @@ import { EditTimerDialogComponent } from './edit-timer-dialog/edit-timer-dialog.
 export class TimersComponent implements OnInit {
   timers: TimerItem[] = [];
 
-  constructor(private timersService: TimersService, public timerDialog: MatDialog) {}
+  constructor(protected timersService: TimersService, public timerDialog: MatDialog) {}
 
   ngOnInit(): void {
     this.timers = this.timersService.get();
@@ -26,14 +26,27 @@ export class TimersComponent implements OnInit {
       .afterClosed()
       .subscribe((result) => {
         console.log('The dialog was closed', result);
+        this.timersService.add(result);
       });
   }
 
-  saveTimers() {}
+  updateTimer(timer: TimerItem) {
+    this.timerDialog
+      .open(EditTimerDialogComponent, {
+        data: timer,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        console.log('The dialog was closed', result);
+        this.timersService.update(result);
+      });
+  }
 
   switchTimer(timer: TimerItem) {}
 
-  deleteTimer(index: number) {}
+  delete(timer: TimerItem) {
+    this.timersService.delete(timer.id);
+  }
 
   getMinutes(seconds: number) {
     return Math.floor(seconds / 60);
