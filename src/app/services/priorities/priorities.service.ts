@@ -21,7 +21,7 @@ export class PrioritiesService {
     this.loadPrioritiesFromLocalStorage();
   }
 
-  public initTestData() {
+  public reSetTestData() {
     this.priorities = [
       'priority1',
       'priority2',

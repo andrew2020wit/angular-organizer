@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HistoryRecord } from './history.model';
+import { historyTestData } from './test-data';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,10 @@ export class HistoryService {
 
   addHistory(record: HistoryRecord) {
     this.setHistory([...this.history, record]);
+  }
+
+  reSetTestData() {
+    this.setHistory(historyTestData);
   }
 
   private loadHistoryFromLocalStorage() {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { TasksService } from '../../../services/tasks/tasks.service';
+import { PrioritiesService } from '../../../services/priorities/priorities.service';
+import { HistoryService } from '../../../services/history/history.service';
 
 @Component({
   selector: 'app-test-page',
@@ -8,12 +9,18 @@ import { TasksService } from '../../../services/tasks/tasks.service';
   styleUrls: ['./test-page.component.scss'],
 })
 export class TestPageComponent implements OnInit {
-  constructor(private router: Router, private tasksService: TasksService) {}
+  constructor(
+    private prioritiesService: PrioritiesService,
+    private historyService: HistoryService,
+    private tasksService: TasksService,
+  ) {}
 
   ngOnInit(): void {}
 
   reSetTestData() {
-    this.tasksService.testInitData();
+    this.prioritiesService.reSetTestData();
+    this.historyService.reSetTestData();
+    window.location.reload();
   }
 
   import(event: any) {
