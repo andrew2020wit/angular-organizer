@@ -55,7 +55,7 @@ export class TasksService {
       this.tasksStateIsChanged$.next(true);
     } else {
       if (confirm('LocalStorage is empty. Do you want to init test data?')) {
-        this.testInitDate();
+        this.testInitData();
       }
     }
   }
@@ -132,12 +132,7 @@ export class TasksService {
     return tagsString.split(' ');
   }
 
-  deleteAll() {
-    localStorage.clear();
-    location.assign('');
-  }
-
-  testInitDate() {
+  testInitData() {
     const newState = new TasksState();
     newState.columnSettings = [
       { title: 'main', tags: '' },

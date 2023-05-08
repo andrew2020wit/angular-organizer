@@ -1,20 +1,13 @@
-  <button
-    mat-button
-    color="warn"
-    (click)="deleteAll()">
-    deleteAll
-  </button>
-
-  <button
-    mat-button
-    color="warn"
-    (click)="reInit()">
-    deleteAll and reInitTestDate
-  </button>
+<button
+  mat-button
+  color="warn"
+  (click)="reSetTestData()">
+  deleteAll and reSetTestDate
+</button>
 
 <h3>Delete all and import from JSON:</h3>
 
-  <input
-    type="file"
-    id="file-input"
-    (change)="import($event)" />
+<input
+  type="file"
+  id="file-input"
+  (change)="import($event)" />

@@ -12,12 +12,8 @@ export class TestPageComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  deleteAll() {
-    this.tasksService.deleteAll();
-  }
-
-  reInit() {
-    this.tasksService.testInitDate();
+  reSetTestData() {
+    this.tasksService.testInitData();
   }
 
   import(event: any) {
