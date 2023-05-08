@@ -3,69 +3,123 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { HistoryService } from '../history/history.service';
-import {AppTask} from  './task.model';
-
-const localStorageTaskKey = 'localStorageTaskStateKey';
-
-interface ExportImportObject {
-  version: number;
-  tasks: TasksState;
-}
-
-export class ColumnSetting {
-  title = '';
-  tags = '';
-  tasks?: AppTask[];
-}
-
-class TasksState {
-  stateVersion = 1;
-  currentIdCount = 1;
-  tasks: AppTask[] = [];
-  columnSettings: ColumnSetting[] = [{ title: 'main', tags: '' }];
-}
+import { AppTask } from './task.model';
+import { ColumnSetting } from './column-setting.model';
+import { ComputedTasks } from './computed-tasks.model';
+import { computeTestTasks, testColumnsSettings } from './test-data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TasksService {
-  public tasksStateIsChanged$ = new BehaviorSubject<boolean>(false);
+  // public tasksStateIsChanged$ = new BehaviorSubject<boolean>(false);
+  private readonly defaultColumnSetting = { title: 'main', tags: [] };
+  columnSettings: ColumnSetting[] = [{ ...this.defaultColumnSetting }];
 
-  private tasksState = new TasksState();
+  private tasks: AppTask[] = [];
+
+  computedTasks$ = new BehaviorSubject<ComputedTasks[]>([]);
+
+  private readonly localStorageTaskKey = 'localStorageTaskStateKey';
+  private readonly localStorageColumnsKey = 'localStorageColumnsKey';
 
   constructor(
     private historyService: HistoryService,
     private router: Router,
     private datePipe: DatePipe,
   ) {
+    this.loadColumnSettingFromLocalStorage();
     this.loadTasksFromLocalStorage();
-    this.tasksStateIsChanged$.subscribe((tasksIsChanged) => {
-      if (!tasksIsChanged) {
-        return;
-      }
-      this.saveTaskStateToLocalStorage();
-    });
+    this.computeTasks();
   }
 
-  private loadTasksFromLocalStorage() {
-    const tasksStateString = localStorage.getItem(localStorageTaskKey);
-    if (tasksStateString) {
-      const tasksState: TasksState = JSON.parse(tasksStateString);
-      this.tasksState = tasksState;
-      this.tasksStateIsChanged$.next(true);
-    } else {
-      if (confirm('LocalStorage is empty. Do you want to init test data?')) {
-        this.testInitData();
-      }
+  getColumnSetting() {
+    const res: ColumnSetting[] = [];
+
+    this.columnSettings.forEach((columnSetting) => {
+      res.push(Object.assign({}, columnSetting));
+    });
+
+    return res;
+  }
+
+  saveColumnSetting(columnSetting: ColumnSetting[]) {
+    this.columnSettings = columnSetting;
+    localStorage.setItem(this.localStorageColumnsKey, JSON.stringify(this.columnSettings));
+  }
+
+  private loadColumnSettingFromLocalStorage() {
+    const str = localStorage.getItem(this.localStorageColumnsKey);
+
+    this.columnSettings = !str ? [{ ...this.defaultColumnSetting }] : JSON.parse(str);
+
+    if (!this.columnSettings[0]?.title) {
+      this.columnSettings = [{ ...this.defaultColumnSetting }];
     }
   }
 
-  private saveTaskStateToLocalStorage() {
-    localStorage.setItem(localStorageTaskKey, JSON.stringify(this.tasksState));
+  private loadTasksFromLocalStorage() {
+    const str = localStorage.getItem(this.localStorageTaskKey);
+
+    this.tasks = !str ? [] : JSON.parse(str);
+
+    if (!this.tasks[0]?.title) {
+      this.tasks = [];
+    }
+  }
+
+  private saveTasks() {
+    localStorage.setItem(this.localStorageTaskKey, JSON.stringify(this.tasks));
+  }
+
+  computeTasks() {
+    const computedTasksColumns: ComputedTasks[] = [];
+    let allColumnTags: string[] = [];
+
+    this.columnSettings.forEach((cs) => {
+      computedTasksColumns.push({
+        columnTitle: cs.title,
+        tags: cs.tags,
+        tasks: [],
+      });
+      allColumnTags = [...allColumnTags, ...cs.tags];
+    });
+
+    this.tasks.forEach((task) => {
+      let isMatchedAll = false;
+      const mainColumn = computedTasksColumns.find((column) => !column.tags.length);
+
+      if (!mainColumn) {
+        console.error('mainColumn is undefined');
+
+        return;
+      }
+
+      computedTasksColumns.forEach((column) => {
+        let isMatched = false;
+
+        task.tags.forEach((taskTag) => {
+          if (column.tags.includes(taskTag)) {
+            isMatched = true;
+            isMatchedAll = true;
+          }
+        });
+
+        if (isMatched) {
+          column.tasks.push(task);
+        }
+      });
+
+      if (!isMatchedAll) {
+        mainColumn.tasks.push(task);
+      }
+    });
+
+    this.computedTasks$.next(computedTasksColumns);
   }
 
   public getTasks() {
-    const tasks = [...this.tasksState.tasks];
+    const tasks = [...this.tasks];
     tasks.sort((a, b) => {
       return a.timestamp - b.timestamp;
     });
@@ -73,25 +127,25 @@ export class TasksService {
   }
 
   private insertTask(task: AppTask) {
-    const index = this.tasksState.tasks.findIndex((item) => {
+    const index = this.tasks.findIndex((item) => {
       return item.id === task.id;
     });
     if (index === -1) {
-      this.tasksState.tasks.push(task);
-      this.tasksStateIsChanged$.next(true);
+      this.tasks.push(task);
+      // this.tasksStateIsChanged$.next(true);
     } else {
-      this.tasksState.tasks.splice(index, 1, task);
-      this.tasksStateIsChanged$.next(true);
+      this.tasks.splice(index, 1, task);
+      // this.tasksStateIsChanged$.next(true);
     }
   }
 
   deleteTask(task: AppTask) {
-    const index = this.tasksState.tasks.findIndex((item) => {
+    const index = this.tasks.findIndex((item) => {
       return item.id === task.id;
     });
 
-    this.tasksState.tasks.splice(index, 1);
-    this.tasksStateIsChanged$.next(true);
+    this.tasks.splice(index, 1);
+    // this.tasksStateIsChanged$.next(true);
 
     this.historyService.addHistory({
       date: new Date(),
@@ -100,7 +154,7 @@ export class TasksService {
   }
 
   getTaskByID(id: number) {
-    const task = this.tasksState.tasks.find((item) => {
+    const task = this.tasks.find((item) => {
       return item.id === id;
     });
     return task;
@@ -108,92 +162,17 @@ export class TasksService {
 
   public editTask(task: AppTask) {
     if (!task.id) {
-      task.id = this.tasksState.currentIdCount;
-      this.tasksState.currentIdCount++;
+      task.id = Date.now();
     }
     this.insertTask(task);
   }
 
-  getColumnSetting() {
-    const res: ColumnSetting[] = [];
-    this.tasksState.columnSettings.forEach((columnSetting) => {
-      res.push(Object.assign({}, columnSetting));
-    });
-    return res;
+  resetColumnsTestData() {
+    this.saveColumnSetting(testColumnsSettings);
   }
 
-  saveColumnSetting(columnSetting: ColumnSetting[]) {
-    this.tasksState.columnSettings = columnSetting;
-    this.tasksStateIsChanged$.next(true);
-  }
-
-  getTagArray(tagsString: string): string[] {
-    tagsString.replace(/\s/g, ' ');
-    return tagsString.split(' ');
-  }
-
-  testInitData() {
-    const newState = new TasksState();
-    newState.columnSettings = [
-      { title: 'main', tags: '' },
-      { title: 'column2', tags: 'tag1 tag2' },
-      { title: 'column3', tags: 'tag3 tag4' },
-    ];
-
-    const tasks = newState.tasks;
-
-    newState.currentIdCount = 10000;
-
-    let currentTimeStamp = Date.now();
-
-    currentTimeStamp -= 3600 * 24 * 5 * 1000;
-
-    for (let i = 0; i < 20; i++) {
-      const newTask = new AppTask();
-      newTask.id = i + 100;
-      newTask.title = `task N${i} - tag1`;
-      newTask.tags = 'tag1';
-      newTask.highPriority = false;
-      newTask.timestamp = currentTimeStamp;
-      tasks.push(newTask);
-
-      const newTask2 = new AppTask();
-      newTask2.id = i + 200;
-      newTask2.title = `task N${i}`;
-      newTask2.tags = '';
-      newTask2.highPriority = false;
-      newTask2.timestamp = currentTimeStamp;
-      tasks.push(newTask2);
-
-      const newTask3 = new AppTask();
-      newTask3.id = i + 300;
-      newTask3.title = `task N${i} - tag3`;
-      newTask3.tags = 'tag3';
-      newTask3.highPriority = false;
-      newTask3.timestamp = currentTimeStamp;
-      tasks.push(newTask3);
-
-      const newTask4 = new AppTask();
-      newTask4.id = i + 400;
-      newTask4.title = `task N${i} - tag7`;
-      newTask4.tags = 'tag7';
-      newTask4.highPriority = false;
-      newTask4.timestamp = currentTimeStamp;
-      tasks.push(newTask4);
-
-      const newTask5 = new AppTask();
-      newTask5.id = i + 500;
-      newTask5.title = `task N${i} - tag2`;
-      newTask5.tags = 'tag2';
-      newTask5.highPriority = true;
-      newTask5.timestamp = currentTimeStamp;
-      tasks.push(newTask5);
-
-      currentTimeStamp += 3600 * 24 * 1000;
-    }
-    this.tasksState = newState;
-    this.saveTaskStateToLocalStorage();
-    location.assign('');
+  resetTasksTestData() {
+    localStorage.setItem(this.localStorageTaskKey, JSON.stringify(computeTestTasks()));
   }
 
   static download(content: string, fileName: string, contentType: string) {
@@ -204,29 +183,29 @@ export class TasksService {
     a.click();
   }
 
-  exportStateToJSON() {
-    const exportObj: ExportImportObject = {
-      version: 2,
-      tasks: this.tasksState,
-    };
-    const jsonData = JSON.stringify(exportObj);
-    const dateString = this.datePipe.transform(Date.now(), 'yyyy-MM-dd');
-    const fileName = 'tasks-state-' + dateString + '.json';
-    TasksService.download(jsonData, fileName, 'text/plain');
-  }
-
-  importFromJSON(json: string) {
-    if (!json) {
-      return;
-    }
-    const exportImportObject: ExportImportObject = JSON.parse(json);
-    if (exportImportObject.version !== 2) {
-      if (confirm('exportImportObject.version !== 2, abort?')) {
-        return;
-      }
-    }
-    this.tasksState = exportImportObject.tasks;
-    this.saveTaskStateToLocalStorage();
-    location.assign('');
-  }
+  // exportStateToJSON() {
+  //   const exportObj: ExportImportObject = {
+  //     version: 2,
+  //     tasks: this.tasksState,
+  //   };
+  //   const jsonData = JSON.stringify(exportObj);
+  //   const dateString = this.datePipe.transform(Date.now(), 'yyyy-MM-dd');
+  //   const fileName = 'tasks-state-' + dateString + '.json';
+  //   TasksService.download(jsonData, fileName, 'text/plain');
+  // }
+  //
+  // importFromJSON(json: string) {
+  //   if (!json) {
+  //     return;
+  //   }
+  //   const exportImportObject: ExportImportObject = JSON.parse(json);
+  //   if (exportImportObject.version !== 2) {
+  //     if (confirm('exportImportObject.version !== 2, abort?')) {
+  //       return;
+  //     }
+  //   }
+  //   this.tasksState = exportImportObject.tasks;
+  //   this.saveTaskStateToLocalStorage();
+  //   location.assign('');
+  // }
 }

@@ -4,6 +4,6 @@ export class AppTask {
   description = '';
   timestamp = Date.now();
   periodTimestamp = 0;
-  tags = '';
+  tags: string[] = [];
   highPriority = false;
 }

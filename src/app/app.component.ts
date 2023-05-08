@@ -14,6 +14,6 @@ export class AppComponent {
   constructor(private tasksService: TasksService) {}
 
   export() {
-    this.tasksService.exportStateToJSON();
+    // this.tasksService.exportStateToJSON();
   }
 }

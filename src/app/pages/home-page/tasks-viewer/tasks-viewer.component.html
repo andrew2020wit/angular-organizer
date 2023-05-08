@@ -1,8 +1,9 @@
 <div
   class="tasks-column"
-  *ngFor="let column of columnSetting">
+  *ngFor="let column of tasksService.computedTasks$ | async">
+
   <div class="column-header">
-    {{ column.title }}
+    {{ column.columnTitle }}
   </div>
 
   <ng-container *ngIf="column.tasks?.length">

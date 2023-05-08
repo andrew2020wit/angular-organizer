@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ColumnSetting, TasksService } from '../../../services/tasks/tasks.service';
+import { TasksService } from '../../../services/tasks/tasks.service';
+import { ColumnSetting } from '../../../services/tasks/column-setting.model';
 
 @Component({
   selector: 'app-column-setting',
@@ -7,16 +8,16 @@ import { ColumnSetting, TasksService } from '../../../services/tasks/tasks.servi
   styleUrls: ['./column-setting.component.scss'],
 })
 export class ColumnSettingComponent implements OnInit {
-  columnSettings: ColumnSetting[];
+  columnSettings: ColumnSetting[] = [];
 
-  constructor(private tasksService: TasksService) {
-    this.columnSettings = this.tasksService.getColumnSetting();
+  constructor(private tasksService: TasksService) {}
+
+  ngOnInit(): void {
+    this.setColumnSetting();
   }
 
-  ngOnInit(): void {}
-
   addNewColumn() {
-    this.columnSettings.push({ title: '', tags: '' });
+    this.columnSettings.push({ title: '', tagsString: '', tags: [] });
   }
 
   removeColumn(index: number) {
@@ -24,6 +25,16 @@ export class ColumnSettingComponent implements OnInit {
   }
 
   saveSettings() {
+    this.columnSettings.forEach(cs => cs.tags = cs.tagsString?.split(/\s/) || []);
+
     this.tasksService.saveColumnSetting(this.columnSettings);
+  }
+
+  private setColumnSetting() {
+    const cs = this.tasksService.getColumnSetting();
+
+    cs.forEach((item) => (item.tagsString = item.tags.join(' ')));
+
+    this.columnSettings = cs;
   }
 }

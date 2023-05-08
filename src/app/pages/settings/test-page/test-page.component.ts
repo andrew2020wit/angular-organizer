@@ -23,6 +23,8 @@ export class TestPageComponent implements OnInit {
     this.prioritiesService.reSetTestData();
     this.historyService.reSetTestData();
     this.timersService.reSetTestData();
+    this.tasksService.resetColumnsTestData()
+    this.tasksService.resetTasksTestData();
     window.location.reload();
   }
 
@@ -31,7 +33,7 @@ export class TestPageComponent implements OnInit {
     reader.readAsText(event.target.files[0]);
 
     reader.onload = () => {
-      this.tasksService.importFromJSON(reader.result as string);
+      // this.tasksService.importFromJSON(reader.result as string);
     };
 
     reader.onerror = function () {

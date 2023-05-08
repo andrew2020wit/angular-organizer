@@ -28,5 +28,32 @@ You can:
 * see how much time left.
 * save list of timers.
 
+## Tasks
+
+Task has:
+* title
+* description
+* date start
+* date end
+* task priority (it's a different priority)
+* tags
+
+Tags is simple strings, without whitespace.
+Tasks are separate into columns, depend on tags.
+You can define your columns.
+
+Column has:
+* title
+* tags
+
+So tasks are separate into columns:
+* each column contain tasks with the same tags
+* special column contain not matched tasks
+
+## Test data
+
+You can use generation of test data.
+
+Tasks are sorted by date, and highlighted accordingly to priority.
 
 MIT license.

@@ -1,63 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ColumnSetting, TasksService } from '../../../services/tasks/tasks.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { AppTask } from '../../../services/tasks/task.model';
+import { Component } from '@angular/core';
+import { TasksService } from '../../../services/tasks/tasks.service';
 
 @Component({
   selector: 'app-tasks-viewer',
   templateUrl: './tasks-viewer.component.html',
   styleUrls: ['./tasks-viewer.component.scss'],
 })
-export class TasksViewerComponent implements OnInit, OnDestroy {
-  columnSetting: ColumnSetting[] = [];
-
-  private readonly unsubscribe$ = new Subject<void>();
-
-  constructor(private tasksService: TasksService) {
-    this.tasksIsChangedSubscribe();
-  }
-
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
-  private tasksIsChangedSubscribe() {
-    this.tasksService.tasksStateIsChanged$
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((tasksIsChanged) => {
-        if (!tasksIsChanged) {
-          return;
-        }
-        this.prepareTasks(this.tasksService.getTasks());
-      });
-  }
-
-  prepareTasks(tasks: AppTask[]) {
-    this.columnSetting = this.tasksService.getColumnSetting();
-    this.columnSetting.forEach((x) => (x.tasks = []));
-    tasks.forEach((task) => {
-      let taskAttached = false;
-      const taskTags = this.tasksService.getTagArray(task.tags);
-      this.columnSetting.forEach((column) => {
-        const columnTags = this.tasksService.getTagArray(column.tags);
-        let exist = false;
-        taskTags.forEach((taskTag) => {
-          if (columnTags.indexOf(taskTag) > -1) {
-            exist = true;
-          }
-        });
-        if (exist) {
-          column.tasks?.push(task);
-          taskAttached = true;
-        }
-      });
-      if (!taskAttached) {
-        this.columnSetting[0].tasks?.push(task);
-      }
-    });
-  }
+export class TasksViewerComponent {
+  constructor(protected tasksService: TasksService) {}
 }
