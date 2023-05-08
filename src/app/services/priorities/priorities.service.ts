@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { priorityLocalStorageKey } from './priority-local-storage-key';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,6 @@ export class PrioritiesService {
   }
 
   private _priorities: string[] = [];
-
-  private readonly prioritiesKey = 'priorities';
 
   constructor() {
     this.loadPrioritiesFromLocalStorage();
@@ -33,7 +32,7 @@ export class PrioritiesService {
   }
 
   private loadPrioritiesFromLocalStorage() {
-    const str = localStorage.getItem(this.prioritiesKey);
+    const str = localStorage.getItem(priorityLocalStorageKey);
 
     this.priorities = !str ? [] : JSON.parse(str);
 
@@ -43,6 +42,6 @@ export class PrioritiesService {
   }
 
   private savePrioritiesToLocalStorage() {
-    localStorage.setItem(this.prioritiesKey, JSON.stringify(this._priorities));
+    localStorage.setItem(priorityLocalStorageKey, JSON.stringify(this._priorities));
   }
 }

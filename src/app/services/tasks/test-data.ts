@@ -1,5 +1,5 @@
-import { ColumnSetting } from './column-setting.model';
-import { AppTask } from './task.model';
+import { ColumnSetting } from './models/column-setting.model';
+import { AppTask } from './models/task.model';
 
 export const testColumnsSettings: ColumnSetting[] = [
   { title: 'main', tags: [] },

@@ -3,6 +3,7 @@ import { TimerItem } from './timer-item.model';
 import { sortObjectByNumberField } from '../../share/utils/sort-object-by-number-field';
 import { BehaviorSubject } from 'rxjs';
 import { timerTestData } from './test-data';
+import { timersLocalStorageKey } from './timers-local-storage-key';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,6 @@ export class TimersService {
   timers$ = new BehaviorSubject<TimerItem[]>([]);
 
   private timers: TimerItem[] = [];
-
-  private readonly localStorageTimersKey = 'localStorageTimersKey';
 
   constructor() {
     this.loadTimersFromLocalStorage();
@@ -71,11 +70,11 @@ export class TimersService {
   }
 
   private save() {
-    localStorage.setItem(this.localStorageTimersKey, JSON.stringify(this.timers));
+    localStorage.setItem(timersLocalStorageKey, JSON.stringify(this.timers));
   }
 
   private loadTimersFromLocalStorage() {
-    const str = localStorage.getItem(this.localStorageTimersKey);
+    const str = localStorage.getItem(timersLocalStorageKey);
 
     this.timers = !str ? [] : JSON.parse(str);
 

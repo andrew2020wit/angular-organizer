@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppTask } from '../../../../services/tasks/task.model';
+import { AppTask } from '../../../../services/tasks/models/task.model';
 
 @Component({
   selector: 'app-task-card',

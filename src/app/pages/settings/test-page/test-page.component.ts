@@ -3,6 +3,7 @@ import { TasksService } from '../../../services/tasks/tasks.service';
 import { PrioritiesService } from '../../../services/priorities/priorities.service';
 import { HistoryService } from '../../../services/history/history.service';
 import { TimersService } from '../../../services/timers/timers.service';
+import { ExportImportService } from '../../../services/export-import/export-import.service';
 
 @Component({
   selector: 'app-test-page',
@@ -15,6 +16,7 @@ export class TestPageComponent implements OnInit {
     private historyService: HistoryService,
     private timersService: TimersService,
     private tasksService: TasksService,
+    private exportImportService: ExportImportService
   ) {}
 
   ngOnInit(): void {}
@@ -33,7 +35,7 @@ export class TestPageComponent implements OnInit {
     reader.readAsText(event.target.files[0]);
 
     reader.onload = () => {
-      // this.tasksService.importFromJSON(reader.result as string);
+      this.exportImportService.importFromJSON(reader.result as string);
     };
 
     reader.onerror = function () {

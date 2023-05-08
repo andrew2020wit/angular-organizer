@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HistoryRecord } from './history.model';
 import { historyTestData } from './test-data';
+import { historyLocalStorageKey } from './history-local-storage-key';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,6 @@ export class HistoryService {
   history$ = new BehaviorSubject<HistoryRecord[]>([]);
 
   private history: HistoryRecord[] = [];
-  private readonly historyKey = 'history';
 
   constructor() {
     this.loadHistoryFromLocalStorage();
@@ -29,7 +29,7 @@ export class HistoryService {
   }
 
   private loadHistoryFromLocalStorage() {
-    const str = localStorage.getItem(this.historyKey);
+    const str = localStorage.getItem(historyLocalStorageKey);
 
     this.history = !str ? [] : JSON.parse(str);
 
@@ -42,7 +42,7 @@ export class HistoryService {
 
   private setHistory(history: HistoryRecord[]) {
     this.history = history;
-    localStorage.setItem(this.historyKey, JSON.stringify(this.history));
+    localStorage.setItem(historyLocalStorageKey, JSON.stringify(this.history));
     this.history$.next(history);
   }
 }

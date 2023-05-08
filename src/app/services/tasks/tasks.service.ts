@@ -1,34 +1,25 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
 import { HistoryService } from '../history/history.service';
-import { AppTask } from './task.model';
-import { ColumnSetting } from './column-setting.model';
-import { ComputedTasks } from './computed-tasks.model';
+import { AppTask } from './models/task.model';
+import { ColumnSetting } from './models/column-setting.model';
+import { ComputedTasks } from './models/computed-tasks.model';
 import { computeTestTasks, testColumnsSettings } from './test-data';
 import { sortObjectByNumberField } from '../../share/utils/sort-object-by-number-field';
+import { tasksLocalStorageKey } from './const/tasks-local-storage-key';
+import { columnsLocalStorageKey } from './const/columns-local-storage-key';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TasksService {
-  // public tasksStateIsChanged$ = new BehaviorSubject<boolean>(false);
   private readonly defaultColumnSetting = { title: 'main', tags: [] };
   columnSettings: ColumnSetting[] = [{ ...this.defaultColumnSetting }];
+  computedTasks$ = new BehaviorSubject<ComputedTasks[]>([]);
 
   private tasks: AppTask[] = [];
 
-  computedTasks$ = new BehaviorSubject<ComputedTasks[]>([]);
-
-  private readonly localStorageTaskKey = 'localStorageTaskStateKey';
-  private readonly localStorageColumnsKey = 'localStorageColumnsKey';
-
-  constructor(
-    private historyService: HistoryService,
-    private router: Router,
-    private datePipe: DatePipe,
-  ) {
+  constructor(private historyService: HistoryService) {
     this.loadColumnSettingFromLocalStorage();
     this.loadTasksFromLocalStorage();
     this.computeTasks(false);
@@ -46,11 +37,11 @@ export class TasksService {
 
   saveColumnSetting(columnSetting: ColumnSetting[]) {
     this.columnSettings = columnSetting;
-    localStorage.setItem(this.localStorageColumnsKey, JSON.stringify(this.columnSettings));
+    localStorage.setItem(columnsLocalStorageKey, JSON.stringify(this.columnSettings));
   }
 
   private loadColumnSettingFromLocalStorage() {
-    const str = localStorage.getItem(this.localStorageColumnsKey);
+    const str = localStorage.getItem(columnsLocalStorageKey);
 
     this.columnSettings = !str ? [{ ...this.defaultColumnSetting }] : JSON.parse(str);
 
@@ -60,7 +51,7 @@ export class TasksService {
   }
 
   private loadTasksFromLocalStorage() {
-    const str = localStorage.getItem(this.localStorageTaskKey);
+    const str = localStorage.getItem(tasksLocalStorageKey);
 
     this.tasks = !str ? [] : JSON.parse(str);
 
@@ -70,7 +61,7 @@ export class TasksService {
   }
 
   private saveTasks() {
-    localStorage.setItem(this.localStorageTaskKey, JSON.stringify(this.tasks));
+    localStorage.setItem(tasksLocalStorageKey, JSON.stringify(this.tasks));
   }
 
   computeTasks(save = true) {
@@ -127,14 +118,6 @@ export class TasksService {
     }
   }
 
-  // public getTasks() {
-  //   const tasks = [...this.tasks];
-  //   tasks.sort((a, b) => {
-  //     return a.timestamp - b.timestamp;
-  //   });
-  //   return tasks;
-  // }
-
   private insertTask(task: AppTask) {
     const index = this.tasks.findIndex((item) => item.id === task.id);
 
@@ -180,40 +163,6 @@ export class TasksService {
   }
 
   resetTasksTestData() {
-    localStorage.setItem(this.localStorageTaskKey, JSON.stringify(computeTestTasks()));
+    localStorage.setItem(tasksLocalStorageKey, JSON.stringify(computeTestTasks()));
   }
-
-  static download(content: string, fileName: string, contentType: string) {
-    const a = document.createElement('a');
-    const file = new Blob([content], { type: contentType });
-    a.href = URL.createObjectURL(file);
-    a.download = fileName;
-    a.click();
-  }
-
-  // exportStateToJSON() {
-  //   const exportObj: ExportImportObject = {
-  //     version: 2,
-  //     tasks: this.tasksState,
-  //   };
-  //   const jsonData = JSON.stringify(exportObj);
-  //   const dateString = this.datePipe.transform(Date.now(), 'yyyy-MM-dd');
-  //   const fileName = 'tasks-state-' + dateString + '.json';
-  //   TasksService.download(jsonData, fileName, 'text/plain');
-  // }
-  //
-  // importFromJSON(json: string) {
-  //   if (!json) {
-  //     return;
-  //   }
-  //   const exportImportObject: ExportImportObject = JSON.parse(json);
-  //   if (exportImportObject.version !== 2) {
-  //     if (confirm('exportImportObject.version !== 2, abort?')) {
-  //       return;
-  //     }
-  //   }
-  //   this.tasksState = exportImportObject.tasks;
-  //   this.saveTaskStateToLocalStorage();
-  //   location.assign('');
-  // }
 }

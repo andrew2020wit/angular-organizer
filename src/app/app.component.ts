@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TasksService } from './services/tasks/tasks.service';
+import { ExportImportService } from './services/export-import/export-import.service';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +11,9 @@ export class AppComponent {
 
   errors: string[] = [];
 
-  constructor(private tasksService: TasksService) {}
+  constructor(private exportImportService: ExportImportService) {}
 
   export() {
-    // this.tasksService.exportStateToJSON();
+    this.exportImportService.exportToJSON();
   }
 }
