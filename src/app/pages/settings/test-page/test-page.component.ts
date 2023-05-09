@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TasksService } from '../../../services/tasks/tasks.service';
 import { PrioritiesService } from '../../../services/priorities/priorities.service';
 import { HistoryService } from '../../../services/history/history.service';
@@ -10,22 +10,20 @@ import { ExportImportService } from '../../../services/export-import/export-impo
   templateUrl: './test-page.component.html',
   styleUrls: ['./test-page.component.scss'],
 })
-export class TestPageComponent implements OnInit {
+export class TestPageComponent {
   constructor(
     private prioritiesService: PrioritiesService,
     private historyService: HistoryService,
     private timersService: TimersService,
     private tasksService: TasksService,
-    private exportImportService: ExportImportService
+    private exportImportService: ExportImportService,
   ) {}
-
-  ngOnInit(): void {}
 
   reSetTestData() {
     this.prioritiesService.reSetTestData();
     this.historyService.reSetTestData();
     this.timersService.reSetTestData();
-    this.tasksService.resetColumnsTestData()
+    this.tasksService.resetColumnsTestData();
     this.tasksService.resetTasksTestData();
     window.location.reload();
   }

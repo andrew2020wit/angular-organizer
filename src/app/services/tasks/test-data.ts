@@ -58,5 +58,6 @@ export function computeTestTasks(): AppTask[] {
 
     currentTimeStamp += 3600 * 24 * 1000;
   }
+
   return tasks;
 }

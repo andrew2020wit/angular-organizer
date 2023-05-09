@@ -9,8 +9,6 @@ import { ExportImportService } from './services/export-import/export-import.serv
 export class AppComponent {
   title = 'angular-organizer';
 
-  errors: string[] = [];
-
   constructor(private exportImportService: ExportImportService) {}
 
   export() {
